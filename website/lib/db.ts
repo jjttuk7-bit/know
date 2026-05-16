@@ -7,6 +7,7 @@ import path from 'path'
 // Vercel: Root Directory = website → process.cwd() = website/
 // GitHub Actions / local: npm run build from website/ → 동일
 const DB_PATH = process.env.DB_PATH ?? path.join(process.cwd(), 'data', 'know.db')
+console.log('[KNow/db] DB_PATH =', DB_PATH)
 
 export interface ArticleRow {
   id:               number
@@ -40,7 +41,10 @@ function db(): Database.Database {
 }
 
 function safe<T>(fn: () => T, fallback: T): T {
-  try { return fn() } catch { return fallback }
+  try { return fn() } catch (err) {
+    console.error('[KNow/db]', err)
+    return fallback
+  }
 }
 
 // ── 홈 페이지 ─────────────────────────────────────────────────
