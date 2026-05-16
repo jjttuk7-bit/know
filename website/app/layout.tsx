@@ -1,10 +1,10 @@
 import type { Metadata } from 'next'
-import { Geist } from 'next/font/google'
+import { Inter } from 'next/font/google'
 import './globals.css'
 import Header from '@/components/Header'
 import { SITE_NAME, SITE_DESC } from '@/lib/config'
 
-const geist = Geist({ subsets: ['latin'], variable: '--font-geist-sans' })
+const geist = Inter({ subsets: ['latin'], variable: '--font-geist-sans' })
 
 export const metadata: Metadata = {
   title:       { default: SITE_NAME, template: `%s — ${SITE_NAME}` },
