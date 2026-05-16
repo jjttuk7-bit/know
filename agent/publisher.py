@@ -45,7 +45,7 @@ class PublishResult:
 class Publisher:
     def __init__(
         self,
-        db_path: str = "data/know.db",
+        db_path: str = "website/data/know.db",   # repo root 기준 경로
         config: dict | None = None,
     ) -> None:
         self._db_path = db_path
@@ -209,7 +209,9 @@ class Publisher:
         try:
             _git("config", "user.email", "actions@github.com")
             _git("config", "user.name",  "github-actions[bot]")
-            _git("add", self._db_path)
+            # WAL/SHM 파일도 함께 add (없으면 무시)
+            for f in [self._db_path, self._db_path + "-wal", self._db_path + "-shm"]:
+                _git("add", f, check=False)
 
             commit = _git(
                 "commit", "-m", f"data: daily update {label}",

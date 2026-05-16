@@ -4,8 +4,9 @@
 import Database from 'better-sqlite3'
 import path from 'path'
 
-// 실행 위치(website/)에서 상위 디렉토리의 data/know.db
-const DB_PATH = process.env.DB_PATH ?? path.join(process.cwd(), '..', 'data', 'know.db')
+// Vercel: Root Directory = website → process.cwd() = website/
+// GitHub Actions / local: npm run build from website/ → 동일
+const DB_PATH = process.env.DB_PATH ?? path.join(process.cwd(), 'data', 'know.db')
 
 export interface ArticleRow {
   id:               number

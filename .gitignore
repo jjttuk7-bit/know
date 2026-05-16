@@ -15,5 +15,5 @@ website/out/
 .DS_Store
 Thumbs.db
 
-# 로컬 테스트용 임시 DB (실제 DB는 추적 대상)
-# data/know.db 는 의도적으로 Git 추적 — DECISIONS.md 참조
+# website/data/know.db 는 의도적으로 Git 추적 — DECISIONS.md 참조
+# (Vercel Root Directory = website → data/ 접근을 위해 website/data/ 위치 사용)
