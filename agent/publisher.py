@@ -190,6 +190,16 @@ class Publisher:
         data/know.db 변경분 커밋 후 푸시.
         GITHUB_ACTIONS 환경변수가 없으면 로컬 실행으로 판단하고 건너뜀.
         """
+        # WAL 모드에서 commit 후 데이터가 .db-wal에 남을 수 있음.
+        # git add 전에 FULL 체크포인트로 메인 파일에 반드시 병합.
+        try:
+            from sqlalchemy import text as sa_text
+            with self._engine.connect() as conn:
+                conn.execute(sa_text("PRAGMA wal_checkpoint(FULL)"))
+            self._engine.dispose()
+        except Exception as exc:
+            logger.warning("WAL 체크포인트 실패 (무시): %s", exc)
+
         if not os.getenv("GITHUB_ACTIONS"):
             logger.info("로컬 환경 감지 — git push 건너뜀")
             return False
