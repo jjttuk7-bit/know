@@ -336,40 +336,28 @@ sources:
       - url:           "https://news.daum.net/rss/entertain"
         category_hint: "K-Drama"
 
-  # 공공기관 RSS — 공공누리(KOGL) 라이선스, 출처 표기 후 자유 이용
-  # ⚠️  각 URL은 실제 서비스 전 접속 확인 필요
+  # 연합뉴스 영문 RSS (Yonhap News Agency — 실접속 확인 완료 2026-05-17)
+  # 팩트 추출 후 LLM 재작성 → 출처 표기(Source: yonhap) → 합법적 활용
   public_rss:
     enabled: true
     feeds:
-      - url:            "https://www.korea.net/NewsFocus/rss"
-        name:           "korea_net"
-        display:        "Korea.net"
+      - url:            "https://en.yna.co.kr/RSS/culture.xml"
+        name:           "yonhap"
+        display:        "Yonhap News Agency"
+        lang:           "en"
+        category_hints: ["K-Pop", "K-Drama", "K-Entertainment", "K-Beauty", "K-Fashion"]
+
+      - url:            "https://en.yna.co.kr/RSS/sports.xml"
+        name:           "yonhap"
+        display:        "Yonhap News Agency"
+        lang:           "en"
+        category_hints: ["K-Sport"]
+
+      - url:            "https://en.yna.co.kr/RSS/news.xml"
+        name:           "yonhap"
+        display:        "Yonhap News Agency"
         lang:           "en"
         category_hints: []
-
-      - url:            "https://english.visitkorea.or.kr/enu/RSS/RSS_ENU.jsp"
-        name:           "kto"
-        display:        "Korea Tourism Organization"
-        lang:           "en"
-        category_hints: ["K-Travel"]
-
-      - url:            "https://www.arirang.com/rss/news.xml"
-        name:           "arirang"
-        display:        "Arirang TV"
-        lang:           "en"
-        category_hints: []
-
-      - url:            "https://www.mcst.go.kr/kor/rss/rss.jsp"
-        name:           "mcst"
-        display:        "Ministry of Culture, Sports and Tourism"
-        lang:           "ko"
-        category_hints: []
-
-      - url:            "https://kofice.or.kr/rss/news.xml"
-        name:           "kofice"
-        display:        "KOFICE (Korean Wave Research)"
-        lang:           "ko"
-        category_hints: ["K-Pop", "K-Drama", "K-Entertainment"]
 
 # ─────────────────────────────────────────────────────────────────
 # 알림 채널

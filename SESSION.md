@@ -7,7 +7,7 @@
 |---|---|
 | **최종 업데이트** | 2026-05-17 |
 | **현재 단계** | MVP 배포 완료 + v1.1 완료 (카테고리 9개 + 공공RSS + YouTube embed) |
-| **다음 작업** | YOUTUBE_API_KEY 등록 → 공공RSS URL 확인 → GA4 + Search Console |
+| **다음 작업** | GA4 + Search Console + 정책 페이지 |
 
 ---
 
@@ -60,16 +60,6 @@
 ---
 
 ## 다음 세션 할 일
-
-### 🔴 우선순위 0 — 즉시 실행 (API 키 등록)
-```
-1. YOUTUBE_API_KEY 발급 + GitHub Secrets 등록
-   → console.cloud.google.com → YouTube Data API v3 활성화 → API 키 생성
-   → GitHub repo → Settings → Secrets → Actions → New secret
-
-2. config.yaml 공공기관 RSS URL 실접속 확인 (5개)
-   → 각 URL을 브라우저에서 직접 열어 RSS 피드 응답 확인
-```
 
 ### 🔴 우선순위 1 — 트래픽 측정 (배포 후 필수)
 ```
@@ -128,7 +118,7 @@
 | `NAVER_CLIENT_ID` | ✅ 필수 | developers.naver.com | ⬜ |
 | `NAVER_CLIENT_SECRET` | ✅ 필수 | developers.naver.com | ⬜ |
 | `UNSPLASH_ACCESS_KEY` | ✅ 필수 | unsplash.com/developers | ⬜ |
-| `YOUTUBE_API_KEY` | 권장 | console.cloud.google.com | ⬜ |
+| `YOUTUBE_API_KEY` | 권장 | console.cloud.google.com | ✅ |
 | `BUTTONDOWN_API_KEY` | P1 | buttondown.email | ⬜ |
 | `DISCORD_WEBHOOK` | P1 | Discord 채널 설정 | ⬜ |
 | `TWITTER_API_KEY` | P2 (v1.1) | developer.twitter.com | ⬜ |
