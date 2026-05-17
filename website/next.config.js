@@ -8,11 +8,8 @@ const nextConfig = {
   ...(isStatic && { output: 'export' }),
   trailingSlash: true,
   images: {
-    unoptimized: isStatic,   // GitHub Pages는 Next.js 이미지 최적화 미지원
-    remotePatterns: [
-      { protocol: 'https', hostname: 'images.unsplash.com' },
-      { protocol: 'https', hostname: 'img.youtube.com' },
-    ],
+    // Unsplash URL이 길고 query param이 많아 Next.js 프록시 실패 → 직접 서빙
+    unoptimized: true,
   },
 }
 
