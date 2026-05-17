@@ -43,6 +43,7 @@ HEADLINE STYLE:
   "Why Korean Women Don't [Common Western Habit] — And What They Do Instead"
   "The [Texture/Feeling] Serum Korean Dermatologists Actually Use"
 
-UNSPLASH KEYWORDS FOCUS:
-["korean skincare flatlay", "glass skin close-up", "serum dropper bottle",
- "minimal skincare aesthetic", "dewy skin texture", "beauty product arrangement"]
+UNSPLASH KEYWORDS FOCUS (products/objects only — no faces or skin):
+["skincare serum dropper bottle", "korean beauty product flatlay white",
+ "cosmetic ampoule glass light", "facial essence packaging minimal",
+ "korean skincare bottles arrangement marble"]

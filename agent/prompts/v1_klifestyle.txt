@@ -49,6 +49,7 @@ HEADLINE STYLE:
   e.g. "The Korean Idea of Rest That Has Nothing to Do With Sleep"
   e.g. "Why Koreans Fill Your Cup Before You Ask"
 
-UNSPLASH KEYWORDS FOCUS:
-["korean minimalist interior morning light", "cozy cafe seoul window rain",
- "zen ceramic tea cup", "clean simple living space", "morning ritual quiet"]
+UNSPLASH KEYWORDS FOCUS (spaces/objects only — no people):
+["korean minimalist interior morning light", "seoul cafe window rainy day",
+ "ceramic tea cup minimal white", "clean living space natural light",
+ "korean apartment interior wood neutral"]

@@ -43,6 +43,7 @@ HEADLINE STYLE:
   "Seoul Has Been Wearing This for Two Years. The Rest of the World Just Noticed."
   "The [Brand/Designer] Changing How [City] Thinks About [Category]"
 
-UNSPLASH KEYWORDS FOCUS:
-["minimal street style fashion", "clean aesthetic outfit", "seoul street fashion",
- "fashion editorial white background", "monochrome outfit detail close-up"]
+UNSPLASH KEYWORDS FOCUS (clothing/location only — no models or people):
+["fashion clothing flatlay minimal white", "fabric texture close-up detail",
+ "seoul hongdae street night aesthetic", "korean streetwear outfit arranged",
+ "clean monochrome clothing editorial still"]

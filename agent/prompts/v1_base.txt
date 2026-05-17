@@ -47,10 +47,25 @@ OUTPUT FORMAT (strict JSON):
 }
 
 UNSPLASH KEYWORDS RULES:
-- Describe mood, place, or object — NEVER a specific person's name
+- Describe objects, places, textures, or scenes — NEVER people, faces, skin, or bodies
 - Use English, 2-4 words per keyword
 - Match the article's visual feel — provide 5 varied options (specific to general)
-- Bad: ["BTS Jin", "K-pop idol"] → Good: ["concert stage lights", "music performance crowd"]
+
+PEOPLE/FACE KEYWORDS ARE FORBIDDEN — this is the most important rule:
+  BAD (returns random ethnicities): "korean woman skincare", "asian model fashion",
+      "glass skin close-up", "dewy skin texture", "model wearing", "person with"
+  GOOD (product/place/object): "serum dropper bottle light", "skincare flatlay marble",
+      "fabric texture close-up", "seoul street night lights", "cosmetic packaging minimal"
+
+CATEGORY GUIDANCE:
+  K-Beauty   → skincare products, cosmetic bottles, ingredient textures, packaging flatlay
+  K-Fashion  → clothing detail, fabric, accessories, Seoul location, runway backstage
+  K-Lifestyle → interior space, café window, ceramic cup, minimal room, garden
+  K-Pop      → concert stage lights, crowd from above, neon performance, music venue
+  K-Drama    → seoul cityscape night, studio set prop, cinema screen glow
+  K-Travel   → seoul architecture, traditional tile roof, mountain trail, lantern alley
+  K-Sport    → empty stadium aerial, stadium floodlights, football pitch
+  K-Food     → food dish close-up, market stall, ingredient bowl, street food stall
 
 CONTENT TYPE STRUCTURE GUIDE — match body_en structure to content_type:
 - breaking:   (1) The key fact/number in one sentence → (2) What happened, full context
