@@ -412,6 +412,87 @@ youtube_channels:
       name:   "Olive Young"
 
 # ─────────────────────────────────────────────────────────────────
+# Evergreen 주제 목록 (Q-11)
+# slug: DB source_url 키 / target_query: 타겟 구글 검색어 / scope: LLM 지침
+# generate_evergreen.py로 생성. 이미 생성된 slug는 --force 없으면 스킵.
+# ─────────────────────────────────────────────────────────────────
+evergreen_topics:
+  K-Pop:
+    - slug:         "kpop-beginners-guide-2026"
+      title:        "K-Pop for Beginners: Everything You Need to Know in 2026"
+      target_query: "how to get into k-pop"
+      scope: >
+        What K-pop actually is (not just the music). The Big 4 labels and why they matter.
+        How to start: picking a first group, understanding fandoms, where to stream.
+        Key vocabulary: comeback, bias, stan, daesang, fancam, sasaeng.
+        Common beginner questions answered honestly.
+
+    - slug:         "kpop-fandoms-explained"
+      title:        "K-Pop Fandoms Explained: ARMY, BLINK, ONCE and How It All Works"
+      target_query: "k-pop fandom explained"
+      scope: >
+        What a fandom is and why k-pop fandoms are different from Western ones.
+        Fan culture: streaming parties, chart manipulation debates, fan meets, lightsticks.
+        The biggest fandoms with numbers. How to join without losing yourself.
+
+  K-Drama:
+    - slug:         "best-korean-dramas-netflix-2026"
+      title:        "The 15 Best Korean Dramas on Netflix Right Now (2026)"
+      target_query: "best korean dramas netflix 2026"
+      scope: >
+        Curated list of 15 dramas currently on Netflix. For each: 2-sentence pitch,
+        genre, episode count, who it's for. Organized by mood not ranking.
+        Include: romance, thriller, fantasy, slice-of-life, historical.
+
+    - slug:         "first-kdrama-recommendations"
+      title:        "Never Watched a K-Drama? These 8 Are the Perfect Starting Point"
+      target_query: "first k-drama to watch"
+      scope: >
+        Eight genuinely accessible entry points. For each: why it works as a first drama,
+        what Western show it feels like, where to watch.
+        Avoid intimidating pick — no 50-episode historicals.
+
+  K-Beauty:
+    - slug:         "korean-skincare-routine-guide"
+      title:        "Korean Skincare Routine: The Complete Beginner's Guide"
+      target_query: "korean skincare routine guide"
+      scope: >
+        The famous 10-step routine — which steps are essential vs optional.
+        Key ingredients: niacinamide, snail mucin, centella, hyaluronic acid.
+        How to build a routine from scratch. Budget vs premium options.
+        Common mistakes Westerners make.
+
+  K-Food:
+    - slug:         "korean-street-food-complete-guide"
+      title:        "Korean Street Food: A Complete Guide to 20 Must-Try Dishes"
+      target_query: "korean street food guide"
+      scope: >
+        20 street foods with: Korean name (romanized), what it is, what it tastes like,
+        where to find it (market, pojangmacha, convenience store).
+        Include: tteokbokki, hotteok, bindaetteok, gyeran-ppang, odeng, bungeo-ppang.
+        How to eat it, how spicy it is, vegan-friendly or not.
+
+  K-Travel:
+    - slug:         "seoul-travel-guide-2026"
+      title:        "Seoul Travel Guide 2026: Neighbourhoods, Food & Practical Tips"
+      target_query: "seoul travel guide"
+      scope: >
+        Six key neighbourhoods and their character: Hongdae, Itaewon, Gangnam,
+        Bukchon, Insadong, Mangwon. Best food per area.
+        Practical: T-money card, best time to visit, how much to budget per day.
+        K-drama filming locations worth visiting.
+
+  K-Fashion:
+    - slug:         "korean-fashion-style-guide"
+      title:        "Korean Fashion in 2026: Trends, Brands and How to Dress Like Seoul"
+      target_query: "korean fashion style guide"
+      scope: >
+        Current street style trends coming out of Seoul (Hongdae, Hannam).
+        Key Korean brands at every price point.
+        How to build a K-fashion wardrobe from scratch.
+        The difference between K-pop idol style vs everyday Seoul style.
+
+# ─────────────────────────────────────────────────────────────────
 # 알림 채널
 # ─────────────────────────────────────────────────────────────────
 notifications:
