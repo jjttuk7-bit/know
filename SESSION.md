@@ -6,8 +6,8 @@
 | 항목 | 내용 |
 |---|---|
 | **최종 업데이트** | 2026-05-17 |
-| **현재 단계** | 세션 20 완료 — Core Web Vitals 성능 최적화 |
-| **다음 작업** | Q-11 Evergreen 파이프라인 · Search Console sitemap 제출 |
+| **현재 단계** | 세션 21 완료 — Q-11 Evergreen 파이프라인 (8개 기사 생성) |
+| **다음 작업** | Q-12 독자 레벨별 톤 분리 · Search Console sitemap 제출 |
 
 ---
 
@@ -50,6 +50,19 @@
   - `/privacy` `/terms` `/dmca` 정책 페이지 3개 (법적 필수)
   - `ShareButtons.tsx`: X(Post) + Copy Link (복사 성공 피드백)
   - `layout.tsx` footer: Privacy · Terms · DMCA 링크
+- [x] **Q-11 Evergreen 파이프라인** (커밋 cf9673e)
+  - `config.yaml`: `evergreen_topics` — 6카테고리 8주제 (K-Pop 2 / K-Drama 2 / K-Beauty / K-Food / K-Travel / K-Fashion)
+  - `agent/prompts/v1_evergreen.txt`: Evergreen 전용 프롬프트 (7단계 구조, 시간 독립 언어, SEO 규칙, 자기검토)
+  - `scripts/generate_evergreen.py`: 생성 스크립트 (--list / --topic / --force / --dry-run)
+  - 8개 기사 실제 생성 완료 (id 138~145, content_type=evergreen)
+    - 138: How to Get Into K-Pop (target: "how to get into k-pop")
+    - 139: K-Pop Fandoms Explained
+    - 140: Best Korean Dramas Netflix 2026
+    - 141: First K-Drama to Watch
+    - 142: Korean Skincare Routine Guide
+    - 143: Korean Street Food Guide
+    - 144: Seoul Travel Guide 2026
+    - 145: Korean Fashion Style Guide
 - [x] **성능 최적화 — Core Web Vitals** (커밋 a7e7c6d)
   - `ArticleCard`: `priority` prop 추가 — 모든 그리드 상단 2~3카드 즉시 로드
   - `sizes` 정밀화: `33vw/66vw` → 픽셀 고정값 (`370px/740px/1152px/672px`)
@@ -110,12 +123,13 @@
 
 ### 🟡 다음 세션 후보
 ```
-1. Q-11 Evergreen 파이프라인
-   — scripts/generate_evergreen.py: 주제 목록 → LLM → DB 저장
-   — "K-Pop 입문 가이드", "Netflix 한국 드라마 추천", "올리브영 완전 정복" 류
+1. Evergreen 주제 추가
+   — config.yaml에 새 slug 추가 후 python scripts/generate_evergreen.py 실행
+   — 추천 추가 주제: "bts-complete-guide", "k-beauty-brands-guide",
+     "korean-drama-vs-anime", "kpop-streaming-guide"
 
 2. Q-12 독자 레벨별 톤 완전 분리
-   — general vs fan 프롬프트 분기
+   — reader_level=fan일 때 다른 프롬프트 사용 (팬덤 내부 용어 허용, 배경설명 생략)
 
 3. Search Console sitemap.xml 제출 (유저 직접 진행)
    → Search Console → Sitemaps → sitemap.xml 입력 후 제출
@@ -137,8 +151,9 @@
 세션 17   Q-08 시계열 맥락 + Q-10 유형별 프롬프트 구조 ✅
 세션 18   Q-09 내부 링크 + 다크모드 ✅
 세션 19   뉴스레터 CTA + 검색 UX + RSS 피드 ✅
-세션 20   Core Web Vitals 성능 최적화 ✅  ← 현재
-세션 21   Q-11 Evergreen 파이프라인
+세션 20   Core Web Vitals 성능 최적화 ✅
+세션 21   Q-11 Evergreen 파이프라인 (8기사 생성) ✅  ← 현재
+세션 22   Q-12 독자 레벨별 톤 분리 OR 추가 Evergreen 주제
 ```
 
 ---
