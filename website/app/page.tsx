@@ -5,6 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import ArticleCard from '@/components/ArticleCard'
 import CategoryBadge from '@/components/CategoryBadge'
+import NewsletterCTA from '@/components/NewsletterCTA'
 import { getFeaturedArticle, getRecentArticles } from '@/lib/db'
 import { getCatColor, formatDate, readTime, MVP_CATEGORIES, catToSlug, SITE_NAME, SITE_DESC } from '@/lib/config'
 
@@ -83,20 +84,7 @@ export default function HomePage() {
       )}
 
       {/* ── 이메일 구독 CTA ────────────────────────────────── */}
-      <section className="rounded-card bg-know-navy text-white p-8 text-center">
-        <p className="text-sm text-white/60 uppercase tracking-widest mb-2">Newsletter</p>
-        <h2 className="text-xl font-semibold mb-1">Get Korea delivered every morning.</h2>
-        <p className="text-white/60 text-sm mb-6">K-beauty, drama, music, and food — daily.</p>
-        <a
-          href="https://buttondown.email/knowkorea"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-block bg-know-red hover:bg-know-red-dark text-white font-medium
-                     px-6 py-2.5 rounded-lg text-sm transition-colors"
-        >
-          Subscribe Free →
-        </a>
-      </section>
+      <NewsletterCTA />
 
       {/* ── 카테고리 브라우저 ──────────────────────────────── */}
       <section>

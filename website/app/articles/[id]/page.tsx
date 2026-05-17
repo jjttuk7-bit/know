@@ -8,6 +8,7 @@ import { notFound } from 'next/navigation'
 import ArticleCard from '@/components/ArticleCard'
 import CategoryBadge from '@/components/CategoryBadge'
 import ShareButtons from '@/components/ShareButtons'
+import NewsletterCTA from '@/components/NewsletterCTA'
 import { getArticleById, getAllArticleIds, getRelatedArticles, getTagLinkedArticles, type TagLink } from '@/lib/db'
 import { getCatColor, formatDate, readTime, parseTags, SITE_NAME } from '@/lib/config'
 
@@ -178,10 +179,15 @@ export default function ArticlePage({ params }: Props) {
         </div>
       )}
 
-      {/* ── 본문 (Q-09 인라인 링크 포함) ──────────────────────── */}
+      {/* ── 본문 (Q-09 인라인 링크 + 뉴스레터 CTA) ─────────────── */}
       <div className="article-body">
         {bodyPara.map((para, i) => (
-          <LinkedParagraph key={i} text={para} links={tagLinks} />
+          <React.Fragment key={i}>
+            <LinkedParagraph text={para} links={tagLinks} />
+            {i === 1 && bodyPara.length > 3 && (
+              <NewsletterCTA inline />
+            )}
+          </React.Fragment>
         ))}
       </div>
 

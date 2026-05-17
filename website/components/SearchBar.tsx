@@ -2,15 +2,18 @@
 // 클라이언트 검색 — /api/search에서 인덱스 로드 후 fuse.js로 퍼지 검색
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
-import { getCatColor, parseTags, formatDateShort } from '@/lib/config'
+import { getCatColor, parseTags, formatDateShort, MVP_CATEGORIES, catToSlug } from '@/lib/config'
 import type { ArticleIndex } from '@/lib/db'
 
 type FuseResult = { item: ArticleIndex; score?: number }
+
+const QUICK_CATEGORIES = MVP_CATEGORIES.slice(0, 6)
 
 export default function SearchBar() {
   const [query,   setQuery]   = useState('')
   const [results, setResults] = useState<ArticleIndex[]>([])
   const [open,    setOpen]    = useState(false)
+  const [focused, setFocused] = useState(false)
   const [fuse,    setFuse]    = useState<any>(null)
   const ref = useRef<HTMLDivElement>(null)
 
@@ -61,7 +64,8 @@ export default function SearchBar() {
           placeholder="Search articles…"
           value={query}
           onChange={e => { setQuery(e.target.value); setOpen(true) }}
-          onFocus={() => results.length > 0 && setOpen(true)}
+          onFocus={() => { setFocused(true); if (results.length > 0 || query.length < 2) setOpen(true) }}
+          onBlur={() => setFocused(false)}
           className="w-full pl-8 pr-3 py-2 text-sm rounded-lg border border-[#E8E6DF] dark:border-[#1E1E3A]
                      bg-white dark:bg-[#13132A] dark:text-[#EAE9E2] dark:placeholder-gray-500
                      focus:outline-none focus:border-know-red transition-colors"
@@ -73,39 +77,90 @@ export default function SearchBar() {
         </svg>
       </div>
 
-      {/* 검색 결과 드롭다운 */}
-      {open && results.length > 0 && (
-        <div className="absolute top-full left-0 right-0 mt-1 bg-white rounded-card
-                        border border-[#E8E6DF] shadow-lg z-50 overflow-hidden">
-          {results.map(article => {
-            const { badgeBg, badgeText } = getCatColor(article.category)
-            return (
-              <Link
-                key={article.id}
-                href={`/articles/${article.id}`}
-                onClick={() => { setOpen(false); setQuery('') }}
-                className="flex items-start gap-3 px-4 py-3 hover:bg-gray-50 transition-colors"
-              >
-                <span
-                  className="flex-shrink-0 mt-0.5 text-[10px] font-semibold px-2 py-0.5 rounded"
-                  style={{ background: badgeBg, color: badgeText }}
-                >
-                  {article.category}
-                </span>
-                <div className="min-w-0">
-                  <p className="text-sm font-medium text-know-navy line-clamp-1">
-                    {article.headline_en}
-                  </p>
-                  <p className="text-xs text-gray-400 mt-0.5">
-                    {formatDateShort(article.published_at_ko)}
-                  </p>
-                </div>
-              </Link>
-            )
-          })}
-          <div className="px-4 py-2 border-t border-[#E8E6DF] bg-gray-50">
-            <p className="text-xs text-gray-400">{results.length} results for "{query}"</p>
-          </div>
+      {/* 검색 드롭다운 */}
+      {open && (
+        <div className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-[#13132A]
+                        rounded-card border border-[#E8E6DF] dark:border-[#1E1E3A]
+                        shadow-lg z-50 overflow-hidden">
+
+          {/* 결과 있을 때 */}
+          {results.length > 0 && (
+            <>
+              {results.map(article => {
+                const { badgeBg, badgeText } = getCatColor(article.category)
+                return (
+                  <Link
+                    key={article.id}
+                    href={`/articles/${article.id}`}
+                    onClick={() => { setOpen(false); setQuery('') }}
+                    className="flex items-start gap-3 px-4 py-3 hover:bg-gray-50 dark:hover:bg-[#1A1A2E] transition-colors"
+                  >
+                    <span className="flex-shrink-0 mt-0.5 text-[10px] font-semibold px-2 py-0.5 rounded"
+                          style={{ background: badgeBg, color: badgeText }}>
+                      {article.category}
+                    </span>
+                    <div className="min-w-0">
+                      <p className="text-sm font-medium text-know-navy dark:text-[#EAE9E2] line-clamp-1">
+                        {article.headline_en}
+                      </p>
+                      <p className="text-xs text-gray-400 mt-0.5">
+                        {formatDateShort(article.published_at_ko)}
+                      </p>
+                    </div>
+                  </Link>
+                )
+              })}
+              <div className="px-4 py-2 border-t border-[#E8E6DF] dark:border-[#1E1E3A] bg-gray-50 dark:bg-[#0D0D1A]">
+                <p className="text-xs text-gray-400">{results.length} results for &ldquo;{query}&rdquo;</p>
+              </div>
+            </>
+          )}
+
+          {/* 결과 없음 — 2자 이상 입력했을 때 */}
+          {results.length === 0 && query.trim().length >= 2 && (
+            <div className="px-4 py-5 text-center">
+              <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">
+                No results for &ldquo;<span className="font-medium text-know-navy dark:text-[#EAE9E2]">{query}</span>&rdquo;
+              </p>
+              <p className="text-xs text-gray-400 mb-3">Try browsing by category:</p>
+              <div className="flex flex-wrap gap-1.5 justify-center">
+                {QUICK_CATEGORIES.map(cat => {
+                  const { bg } = getCatColor(cat)
+                  return (
+                    <Link key={cat} href={`/${catToSlug(cat)}`}
+                          onClick={() => { setOpen(false); setQuery('') }}
+                          className="text-[10px] font-semibold px-2.5 py-1 rounded-full text-white"
+                          style={{ background: bg }}>
+                      {cat}
+                    </Link>
+                  )
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* 포커스만 됐을 때 (쿼리 없음) — 빠른 카테고리 탐색 */}
+          {query.trim().length === 0 && focused && (
+            <div className="px-4 py-3">
+              <p className="text-[10px] font-semibold uppercase tracking-wider text-gray-400 mb-2">
+                Browse categories
+              </p>
+              <div className="flex flex-wrap gap-1.5">
+                {QUICK_CATEGORIES.map(cat => {
+                  const { bg } = getCatColor(cat)
+                  return (
+                    <Link key={cat} href={`/${catToSlug(cat)}`}
+                          onClick={() => { setOpen(false) }}
+                          className="text-[10px] font-semibold px-2.5 py-1 rounded-full text-white"
+                          style={{ background: bg }}>
+                      {cat}
+                    </Link>
+                  )
+                })}
+              </div>
+            </div>
+          )}
+
         </div>
       )}
     </div>
