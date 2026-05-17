@@ -27,7 +27,7 @@ export default function Header() {
               <Link
                 key={cat}
                 href={`/${slug}`}
-                className="flex-shrink-0 text-xs font-medium px-3 py-2 min-h-[36px] flex items-center rounded-t transition-colors text-gray-500 dark:text-gray-400"
+                className="flex-shrink-0 text-xs sm:text-sm font-medium px-3 sm:px-4 py-2 min-h-[36px] flex items-center rounded-t transition-colors text-gray-500 dark:text-gray-400"
                 style={active ? { background: bg, color: '#fff' } : {}}
               >
                 {cat}
