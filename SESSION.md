@@ -6,8 +6,8 @@
 | 항목 | 내용 |
 |---|---|
 | **최종 업데이트** | 2026-05-17 |
-| **현재 단계** | 세션 19 완료 — 뉴스레터 CTA · 검색 UX · RSS 피드 |
-| **다음 작업** | Q-11 Evergreen 파이프라인 · 성능 최적화 · Search Console sitemap 제출 |
+| **현재 단계** | 세션 20 완료 — Core Web Vitals 성능 최적화 |
+| **다음 작업** | Q-11 Evergreen 파이프라인 · Search Console sitemap 제출 |
 
 ---
 
@@ -50,6 +50,11 @@
   - `/privacy` `/terms` `/dmca` 정책 페이지 3개 (법적 필수)
   - `ShareButtons.tsx`: X(Post) + Copy Link (복사 성공 피드백)
   - `layout.tsx` footer: Privacy · Terms · DMCA 링크
+- [x] **성능 최적화 — Core Web Vitals** (커밋 a7e7c6d)
+  - `ArticleCard`: `priority` prop 추가 — 모든 그리드 상단 2~3카드 즉시 로드
+  - `sizes` 정밀화: `33vw/66vw` → 픽셀 고정값 (`370px/740px/1152px/672px`)
+  - `next.config.js`: Vercel에서 AVIF→WebP 자동 변환, 24h TTL, Unsplash·YouTube 도메인
+  - 검색 API: `Cache-Control: max-age=3600, stale-while-revalidate=86400`
 - [x] **뉴스레터 CTA + 검색 UX + RSS 피드** (커밋 bc7fe29)
   - `NewsletterCTA.tsx`: inline(기사 2단락 뒤) / 풀 배너(홈) 2가지 모드, 다크모드 지원
   - `SearchBar.tsx`: 결과 없음 UX + 포커스 시 카테고리 퀵링크
@@ -105,15 +110,14 @@
 
 ### 🟡 다음 세션 후보
 ```
-1. Q-11 Evergreen 콘텐츠 파이프라인
-   — 월 1회 "K-Pop 입문 가이드" 류 상시 기사 자동 생성 스크립트
-2. 성능 최적화
-   — LCP 이미지 priority 자동 설정
-   — next/image sizes 정밀 조정
-   — font display swap
-3. Q-12 독자 레벨별 톤 완전 분리
+1. Q-11 Evergreen 파이프라인
+   — scripts/generate_evergreen.py: 주제 목록 → LLM → DB 저장
+   — "K-Pop 입문 가이드", "Netflix 한국 드라마 추천", "올리브영 완전 정복" 류
+
+2. Q-12 독자 레벨별 톤 완전 분리
    — general vs fan 프롬프트 분기
-4. Search Console sitemap.xml 제출 (유저 직접 진행)
+
+3. Search Console sitemap.xml 제출 (유저 직접 진행)
    → Search Console → Sitemaps → sitemap.xml 입력 후 제출
 ```
 
@@ -132,8 +136,9 @@
 세션 16   sitemap + 정책 페이지 + 소셜 공유 버튼 ✅
 세션 17   Q-08 시계열 맥락 + Q-10 유형별 프롬프트 구조 ✅
 세션 18   Q-09 내부 링크 + 다크모드 ✅
-세션 19   뉴스레터 CTA + 검색 UX + RSS 피드 ✅  ← 현재
-세션 20   Q-11 Evergreen 파이프라인 OR 성능 최적화
+세션 19   뉴스레터 CTA + 검색 UX + RSS 피드 ✅
+세션 20   Core Web Vitals 성능 최적화 ✅  ← 현재
+세션 21   Q-11 Evergreen 파이프라인
 ```
 
 ---
