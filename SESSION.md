@@ -6,8 +6,8 @@
 | 항목 | 내용 |
 |---|---|
 | **최종 업데이트** | 2026-05-17 |
-| **현재 단계** | GA4 + Search Console 연동 완료 / 아이돌 소속 할루시네이션 픽스 완료 |
-| **다음 작업** | Search Console 소유권 확인 버튼 클릭 → sitemap.xml 제출 → 정책 페이지 |
+| **현재 단계** | YouTube 공식 채널 자동 수집 완료 (14개 채널, 6개 카테고리) |
+| **다음 작업** | Search Console sitemap.xml 제출 → 정책 페이지 → 소셜 공유 버튼 |
 
 ---
 
@@ -48,6 +48,20 @@
   - 발단: 소스 "블랙핑크의 장원영" → LLM이 그대로 재작성 (장원영은 아이브 소속)
   - `v1_base.txt`: FACT VERIFICATION 규칙 추가 — 소속 오류 시 모델 지식으로 교정
   - `v1_kpop.txt`: 주요 그룹 멤버 목록 명시 (IVE / aespa / NewJeans / BLACKPINK / BTS / TWICE)
+- [x] **K-Entertainment 수동 기사 작성 + DB 저장** (커밋 d99d852)
+  - The WONDERfools (Netflix 2026-05-15) — YouTube 트레일러 소스 (video_id: KFv4ywb86F0)
+  - `scripts/insert_wonderfools.py` 작성, articles id=137 저장
+- [x] **YouTube 공식 채널 자동 수집** (커밋 2de89b1)
+  - `config.yaml`: `youtube_channels` 섹션 — 6카테고리 14채널
+    - K-Pop: HYBE / JYP / SMTOWN / YG
+    - K-Drama: tvN / JTBC / KBS / MBC
+    - K-Entertainment: JTBC / tvN / Netflix Korea
+    - K-Travel: KTO(Imagine Your Korea) / VISITKOREA
+    - K-Sport: KFA TV
+    - K-Beauty: Olive Young
+  - `agent/youtube_collector.py`: 신규 — playlistItems.list, handle 자동 해석
+  - `agent/collector.py`: `CollectedArticle`에 `video_id` 필드 추가
+  - `agent/main.py`: 뉴스 + YouTube 채널 병렬 수집, yt_video_map으로 API 재검색 방지
 
 ---
 
@@ -90,17 +104,19 @@
 세션 10   MVP 배포 완료 ✅
 세션 11   반응형 UI 개선 + v1.1 카테고리 오픈 ✅
 세션 12   공공RSS + YouTube embed + RSS URL 검증 ✅
-세션 13   GA4 + Search Console + 아이돌 할루시네이션 픽스 ✅  ← 현재
-세션 14   Search Console sitemap 제출 + 정책 페이지
-세션 15   소셜 공유 + 뉴스레터 CTA 개선
-세션 16   다크모드
+세션 13   GA4 + Search Console + 아이돌 할루시네이션 픽스 ✅
+세션 14   YouTube 공식 채널 자동 수집 (14채널) ✅  ← 현재
+세션 15   Search Console sitemap 제출 + 정책 페이지
+세션 16   소셜 공유 + 뉴스레터 CTA 개선
+세션 17   다크모드
 ```
 
 ---
 
 ## 현재 이슈 / 블로커
 
-- Search Console 소유권 확인 대기 중 (Vercel 배포 완료 후 클릭 필요)
+- Search Console 소유권 확인 대기 중 (Vercel 배포 완료 후 "Google 애널리틱스" 방법 클릭 필요)
+- YouTube 채널 핸들 일부 미검증 (K-Drama tvN/@tvN_drama 등 — 첫 실행 로그로 확인 필요)
 
 ---
 
