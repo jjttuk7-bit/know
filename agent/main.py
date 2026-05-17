@@ -150,9 +150,11 @@ async def run_pipeline(dry_run: bool = False) -> None:
 # 유틸
 # ─────────────────────────────────────────────────────────────
 
+_DB_PATH = "website/data/know.db"   # publisher와 동일 경로
+
 def _load_articles(article_ids: list[int]) -> list[Article]:
     """게시된 기사를 DB에서 조회 (알림 발송용)."""
-    engine = make_engine()
+    engine = make_engine(_DB_PATH)
     with Session(engine) as session:
         return (
             session.query(Article)

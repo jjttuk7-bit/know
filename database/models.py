@@ -144,7 +144,7 @@ class DailyDigest(Base):
 # ─────────────────────────────────────────────────────────────
 # 엔진 팩토리 — agent/ 코드에서 import해서 사용
 # ─────────────────────────────────────────────────────────────
-def make_engine(db_path: str = "data/know.db"):
+def make_engine(db_path: str = "website/data/know.db"):
     engine = create_engine(f"sqlite:///{db_path}", echo=False)
 
     # WAL 모드 + 외래 키 활성화 (연결마다 적용)
@@ -156,7 +156,7 @@ def make_engine(db_path: str = "data/know.db"):
     return engine
 
 
-def init_db(db_path: str = "data/know.db") -> None:
+def init_db(db_path: str = "website/data/know.db") -> None:
     """테이블이 없으면 생성. GitHub Actions 첫 실행 시 호출."""
     engine = make_engine(db_path)
     Base.metadata.create_all(engine)
