@@ -6,8 +6,8 @@
 | 항목 | 내용 |
 |---|---|
 | **최종 업데이트** | 2026-05-17 |
-| **현재 단계** | 기사 품질 개선 완료 (Q-02~Q-07) + QUALITY_IMPROVEMENTS.md 작성 |
-| **다음 작업** | sitemap.xml + 정책 페이지 + 소셜 공유 버튼 |
+| **현재 단계** | sitemap + 정책 페이지 + 소셜 공유 버튼 완료 |
+| **다음 작업** | Q-08 시계열 맥락 보강 · Q-10 유형별 프롬프트 구조 |
 
 ---
 
@@ -44,6 +44,12 @@
 - [x] **Search Console 소유권 코드 추가** (커밋 2e72d2d)
   - `verification: { google: 'sBPk0JemMnPNQg1-iQuDLX6ikDp52y5-OAwCtLyIFaI' }`
   - 배포 후 Search Console에서 "Google 애널리틱스" 방법으로 확인 클릭 필요
+- [x] **sitemap + 정책 페이지 + 소셜 공유** (커밋 ca78ca4)
+  - `website/app/sitemap.ts`: 동적 sitemap (홈 + 카테고리 + 전체 기사)
+  - `lib/config.ts`: SITE_URL / CONTACT_EMAIL / DMCA_EMAIL 상수
+  - `/privacy` `/terms` `/dmca` 정책 페이지 3개 (법적 필수)
+  - `ShareButtons.tsx`: X(Post) + Copy Link (복사 성공 피드백)
+  - `layout.tsx` footer: Privacy · Terms · DMCA 링크
 - [x] **기사 품질 개선 Q-02~Q-07** (커밋 c2c6090)
   - `QUALITY_IMPROVEMENTS.md`: 전체 품질 로드맵 문서화
   - `v1_base.txt`: Self-Review 체크리스트 + content_type/reader_level/global_reaction 필드
@@ -113,10 +119,10 @@
 세션 12   공공RSS + YouTube embed + RSS URL 검증 ✅
 세션 13   GA4 + Search Console + 아이돌 할루시네이션 픽스 ✅
 세션 14   YouTube 공식 채널 자동 수집 (14채널) ✅
-세션 15   기사 품질 개선 Q-02~Q-07 ✅  ← 현재
-세션 16   sitemap.xml + 정책 페이지 + 소셜 공유 버튼
-세션 17   Q-08~Q-10 (시계열 맥락 / 내부 링크 / 유형별 프롬프트)
-세션 18   다크모드
+세션 15   기사 품질 개선 Q-02~Q-07 ✅
+세션 16   sitemap + 정책 페이지 + 소셜 공유 버튼 ✅  ← 현재
+세션 17   Q-08 시계열 맥락 + Q-10 유형별 프롬프트 구조
+세션 18   Q-09 내부 링크 자동 삽입 + 다크모드
 ```
 
 ---
