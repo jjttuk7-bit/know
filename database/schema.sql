@@ -38,6 +38,10 @@ CREATE TABLE IF NOT EXISTS articles (
     image_credit_url  TEXT,                        -- Unsplash 작가 프로필 URL
     image_license     TEXT,                        -- 감사 추적용
 
+    -- 영상 (YouTube 공식 채널 embed)
+    video_id          TEXT,                        -- YouTube video ID (embed 전용)
+    video_source      TEXT,                        -- "youtube_official" | null
+
     -- 타임스탬프
     published_at_ko   DATETIME,                    -- 원문 게시 시각
     fetched_at        DATETIME NOT NULL DEFAULT (datetime('now')),

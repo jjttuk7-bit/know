@@ -93,20 +93,21 @@ async def run_pipeline(dry_run: bool = False) -> None:
         logger.info("처리된 기사 없음 — 파이프라인 종료")
         return
 
-    # ── 4. 이미지 페치 (병렬) ─────────────────────────────────
+    # ── 4. 이미지 + 영상 페치 (병렬) ─────────────────────────
     t = time.monotonic()
     image_fetcher = ImageFetcher()
-    images = await asyncio.gather(
-        *[image_fetcher.fetch_for_article(a) for a in processed]
+    images, video_ids = await asyncio.gather(
+        asyncio.gather(*[image_fetcher.fetch_for_article(a) for a in processed]),
+        asyncio.gather(*[image_fetcher.fetch_video(a) for a in processed]),
     )
-    hit  = sum(1 for img in images if img is not None)
-    miss = len(images) - hit
+    hit      = sum(1 for img in images if img is not None)
+    vid_hit  = sum(1 for v in video_ids if v is not None)
     logger.info(
-        "[4/6] 이미지 완료: %d건 (hit=%d miss=%d)  (%.1fs)",
-        len(images), hit, miss, time.monotonic() - t,
+        "[4/6] 이미지 %d건(hit=%d) 영상 %d건  (%.1fs)",
+        len(images), hit, vid_hit, time.monotonic() - t,
     )
 
-    pairs = list(zip(processed, images))
+    pairs = list(zip(processed, images, video_ids))
 
     if dry_run:
         _log_dry_run_summary(pairs)
@@ -168,13 +169,15 @@ def _log_dry_run_summary(
     pairs: list[tuple]
 ) -> None:
     logger.info("── dry-run 결과 미리보기 (%d건) ──", len(pairs))
-    for article, image in pairs[:5]:
+    for article, image, video_id in pairs[:5]:
         img_src = image.source if image else "og_generated"
+        vid_str = f" vid={video_id[:8]}" if video_id else ""
         logger.info(
-            "  [%s] %s  (img=%s)",
+            "  [%s] %s  (img=%s%s)",
             article.category,
             (article.headline_en or "")[:60],
             img_src,
+            vid_str,
         )
     if len(pairs) > 5:
         logger.info("  ... 외 %d건", len(pairs) - 5)

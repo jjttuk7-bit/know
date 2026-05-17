@@ -106,6 +106,32 @@ export default function ArticlePage({ params }: Props) {
         )}
       </div>
 
+      {/* ── YouTube embed ───────────────────────────────────── */}
+      {article.video_id && article.video_source === 'youtube_official' && (
+        <div className="space-y-2">
+          <div className="relative w-full aspect-[16/9] rounded-card overflow-hidden bg-black">
+            <iframe
+              src={`https://www.youtube.com/embed/${article.video_id}?rel=0&modestbranding=1`}
+              title={article.headline_en}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              className="absolute inset-0 w-full h-full"
+            />
+          </div>
+          <p className="text-xs text-gray-400 text-right">
+            Video via{' '}
+            <a
+              href={`https://www.youtube.com/watch?v=${article.video_id}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline hover:text-know-red"
+            >
+              YouTube
+            </a>
+          </p>
+        </div>
+      )}
+
       {/* ── 본문 ─────────────────────────────────────────────── */}
       <div className="article-body">
         {bodyPara.map((para, i) => (

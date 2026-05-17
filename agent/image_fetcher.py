@@ -28,6 +28,9 @@ logger = logging.getLogger(__name__)
 # YouTube 썸네일을 시도하는 카테고리
 _YOUTUBE_CATEGORIES = {"K-Pop", "K-Drama"}
 
+# YouTube 영상 embed를 검색하는 카테고리
+_YOUTUBE_VIDEO_CATEGORIES = {"K-Pop", "K-Drama", "K-Entertainment", "K-Travel", "K-Sport"}
+
 
 # ─────────────────────────────────────────────────────────────
 # 결과 타입
@@ -174,6 +177,51 @@ class ImageFetcher:
                         )
             except httpx.HTTPError as exc:
                 logger.debug("YouTube 썸네일 확인 실패 [%s]: %s", youtube_id, exc)
+        return None
+
+
+    # ── YouTube 영상 검색 ─────────────────────────────────────
+
+    async def fetch_video(self, article: ProcessedArticle) -> str | None:
+        """
+        YouTube Data API → video_id 반환.
+        K-Pop·K-Drama·K-Entertainment·K-Travel·K-Sport 카테고리만 검색.
+        YOUTUBE_API_KEY 없으면 None 반환 (선택적 기능).
+        """
+        if article.category not in _YOUTUBE_VIDEO_CATEGORIES:
+            return None
+        api_key = os.getenv("YOUTUBE_API_KEY", "")
+        if not api_key:
+            return None
+
+        query = f"{article.headline_en[:60]} Korea"
+        params = {
+            "part":              "snippet",
+            "q":                 query,
+            "type":              "video",
+            "maxResults":        3,
+            "order":             "relevance",
+            "videoEmbeddable":   "true",
+            "relevanceLanguage": "en",
+            "key":               api_key,
+        }
+
+        async with httpx.AsyncClient(timeout=8) as client:
+            async with self._semaphore:
+                try:
+                    r = await client.get(
+                        "https://www.googleapis.com/youtube/v3/search",
+                        params=params,
+                    )
+                    r.raise_for_status()
+                except httpx.HTTPError as exc:
+                    logger.warning("YouTube 영상 검색 실패 [%s]: %s", query[:40], exc)
+                    return None
+
+        for item in r.json().get("items", []):
+            vid = item.get("id", {}).get("videoId")
+            if vid:
+                return vid
         return None
 
 

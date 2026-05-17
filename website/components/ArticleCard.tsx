@@ -39,6 +39,18 @@ export default function ArticleCard({ article, featured = false }: Props) {
             </span>
           </div>
         )}
+
+        {/* 영상 있는 기사 ▶ 배지 */}
+        {'video_id' in article && article.video_id && (
+          <div className="absolute top-2.5 right-2.5 flex items-center gap-1
+                          bg-black/60 text-white text-[10px] font-semibold
+                          px-2 py-1 rounded-full backdrop-blur-sm">
+            <svg className="w-2.5 h-2.5 fill-current" viewBox="0 0 10 10">
+              <polygon points="2,1 9,5 2,9" />
+            </svg>
+            VIDEO
+          </div>
+        )}
       </div>
 
       {/* 텍스트 영역 */}

@@ -87,6 +87,10 @@ class Article(Base):
     image_credit_url: Mapped[str | None] = mapped_column(Text)      # Unsplash 작가 프로필 URL
     image_license:    Mapped[str | None] = mapped_column(Text)
 
+    # 영상 (YouTube 공식 채널 embed)
+    video_id:     Mapped[str | None] = mapped_column(Text)          # YouTube video ID
+    video_source: Mapped[str | None] = mapped_column(Text)          # "youtube_official"
+
     # 타임스탬프
     published_at_ko: Mapped[datetime | None] = mapped_column(DateTime)
     fetched_at:      Mapped[datetime]        = mapped_column(

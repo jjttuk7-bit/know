@@ -58,10 +58,10 @@ class Publisher:
 
     def publish_all(
         self,
-        items: list[tuple[ProcessedArticle, ImageResult | None]],
+        items: list[tuple[ProcessedArticle, ImageResult | None, str | None]],
     ) -> PublishResult:
         """
-        (ProcessedArticle, ImageResult | None) 쌍 목록을 DB에 저장.
+        (ProcessedArticle, ImageResult | None, video_id | None) 목록을 DB에 저장.
         중복(source_url)은 스킵. 완료 후 daily_digest 업데이트.
         """
         saved_ids: list[int] = []
@@ -69,8 +69,8 @@ class Publisher:
         today = date.today()
 
         with Session(self._engine) as session:
-            for article, image in items:
-                row = self._save_article(session, article, image)
+            for article, image, video_id in items:
+                row = self._save_article(session, article, image, video_id)
                 if row is None:
                     skipped += 1
                 else:
@@ -100,6 +100,7 @@ class Publisher:
         session: Session,
         article: ProcessedArticle,
         image: ImageResult | None,
+        video_id: str | None = None,
     ) -> Article | None:
         # source_url UNIQUE 제약 보완 — 애플리케이션 레벨 중복 체크
         exists = session.query(
@@ -148,6 +149,11 @@ class Publisher:
             row.image_license    = image.license
         else:
             row.image_source = "og_generated"
+
+        # 영상 (YouTube 공식 embed)
+        if video_id:
+            row.video_id     = video_id
+            row.video_source = "youtube_official"
 
         session.add(row)
         session.flush()   # auto-increment ID 확정

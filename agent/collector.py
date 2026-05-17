@@ -92,6 +92,11 @@ class Collector:
                 for feed in self._cfg["sources"]["daum"]["rss_feeds"]:
                     tasks.append(self._fetch_daum_rss(client, feed["url"]))
 
+            pub_rss = self._cfg["sources"].get("public_rss", {})
+            if pub_rss.get("enabled"):
+                for feed in pub_rss.get("feeds", []):
+                    tasks.append(self._fetch_public_rss(client, feed))
+
             batches = await asyncio.gather(*tasks, return_exceptions=True)
 
         return self._dedupe_and_filter(batches)
@@ -171,6 +176,62 @@ class Collector:
                 CollectedArticle(
                     source_url=url,
                     source_name="daum",
+                    title_ko=title,
+                    summary_ko=summary,
+                    published_at_ko=pub_dt,
+                    category=category,
+                )
+            )
+        return results
+
+    # ── 공공기관 RSS (공공누리 KOGL) ──────────────────────────
+
+    async def _fetch_public_rss(
+        self, client: httpx.AsyncClient, feed_cfg: dict
+    ) -> list[CollectedArticle]:
+        """공공기관 RSS 수집. source_name = feed_cfg['name'], 저작권 free (KOGL)."""
+        url          = feed_cfg["url"]
+        source_name  = feed_cfg["name"]
+        hints: list[str] = feed_cfg.get("category_hints", [])
+
+        async with self._semaphore:
+            try:
+                r = await client.get(url)
+                r.raise_for_status()
+            except httpx.HTTPError as exc:
+                logger.warning("공공기관 RSS 실패 [%s]: %s", source_name, exc)
+                return []
+
+        feed = feedparser.parse(r.text)
+        results = []
+        for entry in feed.entries:
+            pub_dt = _parse_struct_time(entry.get("published_parsed"))
+            if pub_dt is None:
+                # pubDate 없는 피드는 현재 시각으로 처리 (정부 보도자료 당일 배포 기준)
+                pub_dt = datetime.now(tz=timezone.utc)
+            link = entry.get("link", "")
+            if not link:
+                continue
+            title   = _strip_html(entry.get("title", ""))
+            summary = _strip_html(entry.get("summary", entry.get("description", "")))
+            if not title:
+                continue
+
+            # 카테고리 결정: hint 있으면 1순위, 없으면 키워드 자동 분류
+            if hints:
+                # hints가 여럿이면 키워드 점수로 우선순위 결정
+                best = max(hints, key=lambda h: sum(1 for kw in self._keywords.get(h, []) if kw in title + summary), default=hints[0])
+                category = best if best in self._enabled else None
+            else:
+                category = self._assign_category(title, summary)
+
+            if category is None:
+                continue
+
+            results.append(
+                CollectedArticle(
+                    source_url=link,
+                    source_name=source_name,
                     title_ko=title,
                     summary_ko=summary,
                     published_at_ko=pub_dt,
