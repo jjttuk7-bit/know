@@ -6,8 +6,8 @@
 | 항목 | 내용 |
 |---|---|
 | **최종 업데이트** | 2026-05-17 |
-| **현재 단계** | MVP 배포 완료 + v1.1 완료 (카테고리 9개 + 공공RSS + YouTube embed) |
-| **다음 작업** | GA4 + Search Console + 정책 페이지 |
+| **현재 단계** | GA4 + Search Console 연동 완료 / 아이돌 소속 할루시네이션 픽스 완료 |
+| **다음 작업** | Search Console 소유권 확인 버튼 클릭 → sitemap.xml 제출 → 정책 페이지 |
 
 ---
 
@@ -28,28 +28,26 @@
 - [x] `website/` Next.js 14 작성 — 설정 + lib + 컴포넌트 4개 + 페이지 3개 + OG 라우트
 - [x] `.github/workflows/daily-kwave.yml` — 2-job 워크플로우 (pipeline + deploy)
 - [x] `agent/__init__.py` / `database/__init__.py` / `.gitignore` / `.env.example`
-- [x] **MVP 배포 완료** — GitHub Pages 라이브
+- [x] **MVP 배포 완료** — Vercel (`https://know-red.vercel.app/`) 라이브
 - [x] **모바일/데스크탑 반응형 개선** (커밋 3f4b8c3)
-  - 히어로 비율: `aspect-[4/3] sm:aspect-[16/9] md:aspect-[21/9]`
-  - featured 카드: 모바일 16:9, 데스크탑 16:7
-  - 헤더 카테고리 탭 탭타겟 개선 (36px)
-  - 검색 입력창 높이 개선
-  - CategoryBadge sm: 10px → 11px
-  - 관련 기사 그리드: 3열 → 2열 (max-w-2xl 컨테이너 대응)
 - [x] **v1.1 카테고리 3개 활성화** (커밋 20ad6e8)
   - K-Travel / K-Sport / K-Entertainment `enabled: true`
-  - `MVP_CATEGORIES` 9개로 확장 (헤더 네비 + SSG 자동 반영)
-  - 프롬프트 3개 신규 작성: `v1_ktravel.txt` / `v1_ksport.txt` / `v1_kentertainment.txt`
-- [x] **공공기관 RSS + YouTube embed** (커밋 298f808)
-  - `config.yaml`: public_rss 5개 소스 (Korea.net / KTO / Arirang / 문화부 / KOFICE)
-  - `collector.py`: `_fetch_public_rss()` — KOGL 라이선스 자동 수집
-  - `image_fetcher.py`: `fetch_video()` — YouTube Data API, 5개 카테고리
-  - `main.py`: 이미지 + 영상 병렬 fetch
-  - `publisher.py`: `video_id` / `video_source` DB 저장
-  - `schema.sql` + `models.py`: video 컬럼 추가
-  - `ArticleCard`: `▶ VIDEO` 배지
-  - `articles/[id]`: YouTube iframe embed 섹션
-  - `scripts/migrate_add_video.py`: 기존 DB 마이그레이션
+  - `MVP_CATEGORIES` 9개로 확장, 프롬프트 3개 신규 작성
+- [x] **공공RSS + YouTube embed** (커밋 298f808)
+  - Yonhap 영문 RSS 3개 (culture / sports / news) — 실접속 확인 완료
+  - `fetch_video()` — YouTube Data API, 5개 카테고리
+  - DB video_id / video_source 컬럼, ArticleCard ▶ VIDEO 배지
+- [x] **RSS URL 검증 및 교체** (커밋 16e0e49)
+  - 원래 5개 정부 URL 전부 404/연결불가 확인
+  - Yonhap 영문 RSS 3개로 교체 (실접속 확인)
+- [x] **GA4 연동** (커밋 18a247c) — `G-Q2Y7RWPBWF`, `next/script afterInteractive`
+- [x] **Search Console 소유권 코드 추가** (커밋 2e72d2d)
+  - `verification: { google: 'sBPk0JemMnPNQg1-iQuDLX6ikDp52y5-OAwCtLyIFaI' }`
+  - 배포 후 Search Console에서 "Google 애널리틱스" 방법으로 확인 클릭 필요
+- [x] **아이돌 소속 할루시네이션 픽스** (커밋 f6afc56)
+  - 발단: 소스 "블랙핑크의 장원영" → LLM이 그대로 재작성 (장원영은 아이브 소속)
+  - `v1_base.txt`: FACT VERIFICATION 규칙 추가 — 소속 오류 시 모델 지식으로 교정
+  - `v1_kpop.txt`: 주요 그룹 멤버 목록 명시 (IVE / aespa / NewJeans / BLACKPINK / BTS / TWICE)
 
 ---
 
@@ -61,30 +59,26 @@
 
 ## 다음 세션 할 일
 
-### 🔴 우선순위 1 — 트래픽 측정 (배포 후 필수)
+### 🔴 우선순위 1 — Search Console 마무리
 ```
-3. Google Analytics 4 연동
-   - website/app/layout.tsx에 GA4 Script 추가
-   - NEXT_PUBLIC_GA_ID 환경변수
-
-4. Google Search Console
-   - sitemap.xml 제출 확인 (/api/sitemap.xml 또는 정적 생성)
-   - 소유권 확인 메타태그 layout.tsx 추가
+1. Vercel 배포 확인 후 Search Console → "Google 애널리틱스" 방법으로 소유권 확인 클릭
+2. sitemap.xml 존재 여부 확인 → 없으면 생성
+3. Search Console → Sitemaps → sitemap.xml 제출
 ```
 
 ### 🔴 우선순위 2 — 법적 필수 페이지
 ```
-3. /privacy  — Privacy Policy
-4. /terms    — Terms of Use
-5. /dmca     — DMCA 정책 (Unsplash 이미지 사용 때문에 필수)
+4. /privacy  — Privacy Policy
+5. /terms    — Terms of Use
+6. /dmca     — DMCA 정책 (Unsplash 이미지 사용 때문에 필수)
    → website/app/privacy/page.tsx 등 정적 페이지로 작성
 ```
 
 ### 🟡 우선순위 3 — 사용자 경험
 ```
-6. 소셜 공유 버튼 — 기사 상세 페이지 (X, Copy Link)
-7. 뉴스레터 구독 인라인 CTA — 기사 본문 중간 삽입
-8. 검색 결과 없음 UX 개선
+7. 소셜 공유 버튼 — 기사 상세 페이지 (X, Copy Link)
+8. 뉴스레터 구독 인라인 CTA — 기사 본문 중간 삽입
+9. 검색 결과 없음 UX 개선
 ```
 
 ---
@@ -95,17 +89,18 @@
 세션 1~9  MVP 코드베이스 완성 ✅
 세션 10   MVP 배포 완료 ✅
 세션 11   반응형 UI 개선 + v1.1 카테고리 오픈 ✅
-세션 12   공공RSS + YouTube embed ✅  ← 현재
-세션 13   YOUTUBE_API_KEY 등록 + Analytics + Search Console + 정책 페이지
-세션 13   소셜 공유 + 뉴스레터 CTA 개선
-세션 14   다크모드
+세션 12   공공RSS + YouTube embed + RSS URL 검증 ✅
+세션 13   GA4 + Search Console + 아이돌 할루시네이션 픽스 ✅  ← 현재
+세션 14   Search Console sitemap 제출 + 정책 페이지
+세션 15   소셜 공유 + 뉴스레터 CTA 개선
+세션 16   다크모드
 ```
 
 ---
 
 ## 현재 이슈 / 블로커
 
-- 없음
+- Search Console 소유권 확인 대기 중 (Vercel 배포 완료 후 클릭 필요)
 
 ---
 
@@ -122,7 +117,17 @@
 | `BUTTONDOWN_API_KEY` | P1 | buttondown.email | ⬜ |
 | `DISCORD_WEBHOOK` | P1 | Discord 채널 설정 | ⬜ |
 | `TWITTER_API_KEY` | P2 (v1.1) | developer.twitter.com | ⬜ |
-| `NEXT_PUBLIC_GA_ID` | P1 | analytics.google.com | ⬜ |
+
+---
+
+## 배포 정보
+
+| 항목 | 내용 |
+|---|---|
+| **플랫폼** | Vercel |
+| **URL** | https://know-red.vercel.app/ |
+| **GA4** | G-Q2Y7RWPBWF |
+| **Search Console** | sBPk0JemMnPNQg1-iQuDLX6ikDp52y5-OAwCtLyIFaI |
 
 ---
 
