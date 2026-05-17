@@ -3,6 +3,9 @@
 export const SITE_NAME    = 'KNow'
 export const SITE_SLOGAN  = 'KNow Korea, before anyone else.'
 export const SITE_DESC    = 'Your daily dose of K-beauty, K-drama, K-pop, K-food, K-fashion and more.'
+export const SITE_URL     = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://know-red.vercel.app'
+export const CONTACT_EMAIL = 'hello@k-now.co'
+export const DMCA_EMAIL    = 'dmca@k-now.co'
 
 export const MVP_CATEGORIES = [
   'K-Beauty', 'K-Drama', 'K-Pop', 'K-Food', 'K-Fashion', 'K-Lifestyle',

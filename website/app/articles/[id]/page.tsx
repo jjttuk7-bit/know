@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import ArticleCard from '@/components/ArticleCard'
 import CategoryBadge from '@/components/CategoryBadge'
+import ShareButtons from '@/components/ShareButtons'
 import { getArticleById, getAllArticleIds, getRelatedArticles } from '@/lib/db'
 import { getCatColor, formatDate, readTime, parseTags, SITE_NAME } from '@/lib/config'
 
@@ -183,6 +184,11 @@ export default function ArticlePage({ params }: Props) {
           ))}
         </div>
       )}
+
+      {/* ── 공유 버튼 ─────────────────────────────────────────── */}
+      <div className="pt-4 border-t border-[#E8E6DF]">
+        <ShareButtons articleId={article.id} headline={article.headline_en} />
+      </div>
 
       {/* ── 출처 표기 — 필수 (CLAUDE.md 규칙 #9) ──────────────── */}
       <div className="pt-4 border-t border-[#E8E6DF]">
