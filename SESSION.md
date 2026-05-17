@@ -6,8 +6,8 @@
 | 항목 | 내용 |
 |---|---|
 | **최종 업데이트** | 2026-05-17 |
-| **현재 단계** | MVP 배포 완료 + v1.1 카테고리 활성화 완료 |
-| **다음 작업** | Google Analytics 4 + Search Console + 정책 페이지 |
+| **현재 단계** | MVP 배포 완료 + v1.1 완료 (카테고리 9개 + 공공RSS + YouTube embed) |
+| **다음 작업** | YOUTUBE_API_KEY 등록 → 공공RSS URL 확인 → GA4 + Search Console |
 
 ---
 
@@ -40,6 +40,16 @@
   - K-Travel / K-Sport / K-Entertainment `enabled: true`
   - `MVP_CATEGORIES` 9개로 확장 (헤더 네비 + SSG 자동 반영)
   - 프롬프트 3개 신규 작성: `v1_ktravel.txt` / `v1_ksport.txt` / `v1_kentertainment.txt`
+- [x] **공공기관 RSS + YouTube embed** (커밋 298f808)
+  - `config.yaml`: public_rss 5개 소스 (Korea.net / KTO / Arirang / 문화부 / KOFICE)
+  - `collector.py`: `_fetch_public_rss()` — KOGL 라이선스 자동 수집
+  - `image_fetcher.py`: `fetch_video()` — YouTube Data API, 5개 카테고리
+  - `main.py`: 이미지 + 영상 병렬 fetch
+  - `publisher.py`: `video_id` / `video_source` DB 저장
+  - `schema.sql` + `models.py`: video 컬럼 추가
+  - `ArticleCard`: `▶ VIDEO` 배지
+  - `articles/[id]`: YouTube iframe embed 섹션
+  - `scripts/migrate_add_video.py`: 기존 DB 마이그레이션
 
 ---
 
@@ -51,13 +61,23 @@
 
 ## 다음 세션 할 일
 
+### 🔴 우선순위 0 — 즉시 실행 (API 키 등록)
+```
+1. YOUTUBE_API_KEY 발급 + GitHub Secrets 등록
+   → console.cloud.google.com → YouTube Data API v3 활성화 → API 키 생성
+   → GitHub repo → Settings → Secrets → Actions → New secret
+
+2. config.yaml 공공기관 RSS URL 실접속 확인 (5개)
+   → 각 URL을 브라우저에서 직접 열어 RSS 피드 응답 확인
+```
+
 ### 🔴 우선순위 1 — 트래픽 측정 (배포 후 필수)
 ```
-1. Google Analytics 4 연동
+3. Google Analytics 4 연동
    - website/app/layout.tsx에 GA4 Script 추가
    - NEXT_PUBLIC_GA_ID 환경변수
 
-2. Google Search Console
+4. Google Search Console
    - sitemap.xml 제출 확인 (/api/sitemap.xml 또는 정적 생성)
    - 소유권 확인 메타태그 layout.tsx 추가
 ```
@@ -84,8 +104,9 @@
 ```
 세션 1~9  MVP 코드베이스 완성 ✅
 세션 10   MVP 배포 완료 ✅
-세션 11   반응형 UI 개선 + v1.1 카테고리 오픈 ✅  ← 현재
-세션 12   Analytics + Search Console + 정책 페이지
+세션 11   반응형 UI 개선 + v1.1 카테고리 오픈 ✅
+세션 12   공공RSS + YouTube embed ✅  ← 현재
+세션 13   YOUTUBE_API_KEY 등록 + Analytics + Search Console + 정책 페이지
 세션 13   소셜 공유 + 뉴스레터 CTA 개선
 세션 14   다크모드
 ```
