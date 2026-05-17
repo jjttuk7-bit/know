@@ -6,8 +6,8 @@
 | 항목 | 내용 |
 |---|---|
 | **최종 업데이트** | 2026-05-17 |
-| **현재 단계** | MVP 코드베이스 완성 (세션 1~9) |
-| **다음 작업** | GitHub Secrets 등록 → 첫 실행 (`--dry-run`) → 론칭 |
+| **현재 단계** | MVP 배포 완료 + v1.1 카테고리 활성화 완료 |
+| **다음 작업** | Google Analytics 4 + Search Console + 정책 페이지 |
 
 ---
 
@@ -28,6 +28,18 @@
 - [x] `website/` Next.js 14 작성 — 설정 + lib + 컴포넌트 4개 + 페이지 3개 + OG 라우트
 - [x] `.github/workflows/daily-kwave.yml` — 2-job 워크플로우 (pipeline + deploy)
 - [x] `agent/__init__.py` / `database/__init__.py` / `.gitignore` / `.env.example`
+- [x] **MVP 배포 완료** — GitHub Pages 라이브
+- [x] **모바일/데스크탑 반응형 개선** (커밋 3f4b8c3)
+  - 히어로 비율: `aspect-[4/3] sm:aspect-[16/9] md:aspect-[21/9]`
+  - featured 카드: 모바일 16:9, 데스크탑 16:7
+  - 헤더 카테고리 탭 탭타겟 개선 (36px)
+  - 검색 입력창 높이 개선
+  - CategoryBadge sm: 10px → 11px
+  - 관련 기사 그리드: 3열 → 2열 (max-w-2xl 컨테이너 대응)
+- [x] **v1.1 카테고리 3개 활성화** (커밋 20ad6e8)
+  - K-Travel / K-Sport / K-Entertainment `enabled: true`
+  - `MVP_CATEGORIES` 9개로 확장 (헤더 네비 + SSG 자동 반영)
+  - 프롬프트 3개 신규 작성: `v1_ktravel.txt` / `v1_ksport.txt` / `v1_kentertainment.txt`
 
 ---
 
@@ -37,68 +49,45 @@
 
 ---
 
-## 빌드 순서 (전체 로드맵)
+## 다음 세션 할 일
 
+### 🔴 우선순위 1 — 트래픽 측정 (배포 후 필수)
 ```
-세션 1   프로젝트 초기화
-         config.yaml 작성 (카테고리·키워드·컬러 SSOT)
-         requirements.txt / package.json
+1. Google Analytics 4 연동
+   - website/app/layout.tsx에 GA4 Script 추가
+   - NEXT_PUBLIC_GA_ID 환경변수
 
-세션 2   DB 설계
-         database/schema.sql
-         database/models.py (JsonType 포함)
+2. Google Search Console
+   - sitemap.xml 제출 확인 (/api/sitemap.xml 또는 정적 생성)
+   - 소유권 확인 메타태그 layout.tsx 추가
+```
 
-세션 3   Collector
-         agent/collector.py (Naver Search API + Daum RSS)
-         agent/fact_extractor.py (팩트 추출, 원문 버림)
+### 🔴 우선순위 2 — 법적 필수 페이지
+```
+3. /privacy  — Privacy Policy
+4. /terms    — Terms of Use
+5. /dmca     — DMCA 정책 (Unsplash 이미지 사용 때문에 필수)
+   → website/app/privacy/page.tsx 등 정적 페이지로 작성
+```
 
-세션 4   Processor
-         agent/processor.py (카테고리별 프롬프트 로딩 + LLM 호출)
-         safe_parse_json() + process_with_fallback()
-
-세션 5   Image Fetcher
-         agent/image_fetcher.py
-         Unsplash API 연동
-         YouTube 썸네일 (K-Pop · K-Drama)
-
-세션 6   Publisher + Notifier
-         agent/publisher.py (DB 저장 + Markdown 생성 + Git push)
-         agent/notifier.py (이메일 / X / Discord)
-
-세션 7   Next.js 기반
-         website/app/page.tsx (메인)
-         website/app/[category]/page.tsx
-         website/app/articles/[id]/page.tsx
-
-세션 8   OG 이미지 + SEO
-         website/app/api/og/route.tsx (@vercel/og)
-         메타태그 + Schema.org 구조화 데이터
-
-세션 9   GitHub Actions
-         .github/workflows/daily-kwave.yml
-
-세션 10  통합 테스트 + 론칭
-         E2E 테스트
-         저작권 정책 페이지
-         Google Analytics + Search Console
+### 🟡 우선순위 3 — 사용자 경험
+```
+6. 소셜 공유 버튼 — 기사 상세 페이지 (X, Copy Link)
+7. 뉴스레터 구독 인라인 CTA — 기사 본문 중간 삽입
+8. 검색 결과 없음 UX 개선
 ```
 
 ---
 
-## 다음 세션 할 일
+## 빌드 순서 (전체 로드맵)
 
 ```
-1. config.yaml 작성
-   - categories (9개 단계별)
-   - category_keywords (필터링용)
-   - category_colors (OG 이미지용)
-   - image_keywords (Unsplash 검색용)
-   - prompt_version: "v1.0"
-
-2. requirements.txt 작성
-
-3. database/schema.sql 작성
-   (KWAVE_DAILY_PLAN.md 7절 기준)
+세션 1~9  MVP 코드베이스 완성 ✅
+세션 10   MVP 배포 완료 ✅
+세션 11   반응형 UI 개선 + v1.1 카테고리 오픈 ✅  ← 현재
+세션 12   Analytics + Search Console + 정책 페이지
+세션 13   소셜 공유 + 뉴스레터 CTA 개선
+세션 14   다크모드
 ```
 
 ---
@@ -122,6 +111,7 @@
 | `BUTTONDOWN_API_KEY` | P1 | buttondown.email | ⬜ |
 | `DISCORD_WEBHOOK` | P1 | Discord 채널 설정 | ⬜ |
 | `TWITTER_API_KEY` | P2 (v1.1) | developer.twitter.com | ⬜ |
+| `NEXT_PUBLIC_GA_ID` | P1 | analytics.google.com | ⬜ |
 
 ---
 
