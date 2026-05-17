@@ -6,7 +6,7 @@
 | 항목 | 내용 |
 |---|---|
 | **최종 업데이트** | 2026-05-17 |
-| **현재 단계** | 세션 21 완료 — Q-11 Evergreen 파이프라인 (8개 기사 생성) |
+| **현재 단계** | Evergreen 8기사 이미지 백필 완료 |
 | **다음 작업** | Q-12 독자 레벨별 톤 분리 · Search Console sitemap 제출 |
 
 ---
@@ -50,6 +50,10 @@
   - `/privacy` `/terms` `/dmca` 정책 페이지 3개 (법적 필수)
   - `ShareButtons.tsx`: X(Post) + Copy Link (복사 성공 피드백)
   - `layout.tsx` footer: Privacy · Terms · DMCA 링크
+- [x] **Evergreen 이미지 백필** (커밋 bc80ff8)
+  - `scripts/backfill_evergreen_images.py`: Evergreen 기사 이미지 일괄 적용
+  - id 138~145 전체 Unsplash 이미지 적용 완료
+  - `.env` 자동 로드, `--force` 재적용 옵션
 - [x] **Q-11 Evergreen 파이프라인** (커밋 cf9673e)
   - `config.yaml`: `evergreen_topics` — 6카테고리 8주제 (K-Pop 2 / K-Drama 2 / K-Beauty / K-Food / K-Travel / K-Fashion)
   - `agent/prompts/v1_evergreen.txt`: Evergreen 전용 프롬프트 (7단계 구조, 시간 독립 언어, SEO 규칙, 자기검토)
