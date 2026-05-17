@@ -49,11 +49,12 @@ def _load_config() -> dict:
 @dataclass
 class CollectedArticle:
     source_url:      str
-    source_name:     str       # "naver" | "daum"
+    source_name:     str       # "naver" | "daum" | "yonhap" | "youtube_official"
     title_ko:        str
     summary_ko:      str       # API snippet — 원문 전문 아님
     published_at_ko: datetime
     category:        str
+    video_id:        str | None = None   # YouTube 공식 채널 수집 시 설정
 
 
 # ─────────────────────────────────────────────────────────────

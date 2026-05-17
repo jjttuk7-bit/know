@@ -31,6 +31,7 @@ from agent.image_fetcher import ImageFetcher
 from agent.notifier import Notifier
 from agent.processor import Processor
 from agent.publisher import Publisher
+from agent.youtube_collector import YouTubeCollector
 from database.models import Article, make_engine
 
 # ─────────────────────────────────────────────────────────────
@@ -67,11 +68,18 @@ async def run_pipeline(dry_run: bool = False) -> None:
     logger.info("KNow 파이프라인 시작  [%s]  dry_run=%s", today, dry_run)
     logger.info("=" * 52)
 
-    # ── 1. 수집 ───────────────────────────────────────────────
+    # ── 1. 수집 (Naver/Daum/Yonhap + YouTube 공식 채널) ──────
     t = time.monotonic()
-    collector = Collector()
-    collected = await collector.collect_all()
-    logger.info("[1/6] 수집 완료: %d건  (%.1fs)", len(collected), time.monotonic() - t)
+    collector, yt_collector = Collector(), YouTubeCollector()
+    collected_news, collected_yt = await asyncio.gather(
+        collector.collect_all(),
+        yt_collector.collect_all(),
+    )
+    collected = collected_news + collected_yt
+    logger.info(
+        "[1/6] 수집 완료: %d건 (뉴스=%d, YT채널=%d)  (%.1fs)",
+        len(collected), len(collected_news), len(collected_yt), time.monotonic() - t,
+    )
 
     if not collected:
         logger.info("수집된 기사 없음 — 파이프라인 종료")
@@ -96,15 +104,29 @@ async def run_pipeline(dry_run: bool = False) -> None:
     # ── 4. 이미지 + 영상 페치 (병렬) ─────────────────────────
     t = time.monotonic()
     image_fetcher = ImageFetcher()
+
+    # YouTube 채널 수집 기사는 video_id 이미 확보 — API 재검색 불필요
+    yt_video_map: dict[str, str] = {
+        a.source_url: a.video_id
+        for a in collected
+        if getattr(a, "video_id", None)
+    }
+
+    async def _get_video_id(article) -> str | None:
+        if article.source_url in yt_video_map:
+            return yt_video_map[article.source_url]
+        return await image_fetcher.fetch_video(article)
+
     images, video_ids = await asyncio.gather(
         asyncio.gather(*[image_fetcher.fetch_for_article(a) for a in processed]),
-        asyncio.gather(*[image_fetcher.fetch_video(a) for a in processed]),
+        asyncio.gather(*[_get_video_id(a) for a in processed]),
     )
-    hit      = sum(1 for img in images if img is not None)
-    vid_hit  = sum(1 for v in video_ids if v is not None)
+    hit     = sum(1 for img in images if img is not None)
+    vid_hit = sum(1 for v in video_ids if v is not None)
+    yt_hit  = sum(1 for a in processed if a.source_url in yt_video_map)
     logger.info(
-        "[4/6] 이미지 %d건(hit=%d) 영상 %d건  (%.1fs)",
-        len(images), hit, vid_hit, time.monotonic() - t,
+        "[4/6] 이미지 %d건(hit=%d) 영상 %d건(YT채널=%d)  (%.1fs)",
+        len(images), hit, vid_hit, yt_hit, time.monotonic() - t,
     )
 
     pairs = list(zip(processed, images, video_ids))

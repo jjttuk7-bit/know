@@ -360,6 +360,58 @@ sources:
         category_hints: []
 
 # ─────────────────────────────────────────────────────────────────
+# YouTube 공식 채널 (카테고리별 자동 기사화)
+# id 있으면 직접 사용, 없으면 handle로 API 조회
+# ─────────────────────────────────────────────────────────────────
+youtube_channels:
+  K-Pop:
+    - id:     "UC3IZKseVpdzPSBaWxBxundA"
+      handle: "@HYBELABELS"
+      name:   "HYBE LABELS"
+    - id:     "UCODVRG7mF_0-kC4it9_XddQ"
+      handle: "@JYPEntertainment"
+      name:   "JYP Entertainment"
+    - id:     "UCEf_Bc-KVd7onSeifS3py9g"
+      handle: "@SMTOWN"
+      name:   "SMTOWN"
+    - handle: "@YGEntertainment"
+      name:   "YG Entertainment"
+
+  K-Drama:
+    - handle: "@tvN_drama"
+      name:   "tvN Drama"
+    - handle: "@JTBCdrama"
+      name:   "JTBC Drama"
+    - handle: "@KBSdrama"
+      name:   "KBS Drama"
+    - handle: "@mbcdrama"
+      name:   "MBC Drama"
+
+  K-Entertainment:
+    - id:     "UCFL1sCAksD6_7JIZwwHcwjQ"
+      handle: "@JTBCentertainment"
+      name:   "JTBC Entertainment"
+    - handle: "@tvN_official"
+      name:   "tvN"
+    - handle: "@NetflixKorea"
+      name:   "Netflix Korea"
+
+  K-Travel:
+    - id:     "UChhOtjq-3QyyLmP2jv9amrg"
+      handle: "@imagineYourKorea"
+      name:   "Imagine Your Korea (KTO)"
+    - handle: "@visitkorea"
+      name:   "VISITKOREA"
+
+  K-Sport:
+    - handle: "@thekfa"
+      name:   "KFA TV"
+
+  K-Beauty:
+    - handle: "@oliveyoungofficial"
+      name:   "Olive Young"
+
+# ─────────────────────────────────────────────────────────────────
 # 알림 채널
 # ─────────────────────────────────────────────────────────────────
 notifications:
