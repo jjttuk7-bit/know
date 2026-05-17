@@ -6,8 +6,8 @@
 | 항목 | 내용 |
 |---|---|
 | **최종 업데이트** | 2026-05-17 |
-| **현재 단계** | Q-09 인라인 링크 + 다크모드 완료 (QUALITY Q-02~Q-10 전부 완료) |
-| **다음 작업** | 뉴스레터 인라인 CTA · 검색 UX 개선 · RSS 링크 |
+| **현재 단계** | 세션 19 완료 — 뉴스레터 CTA · 검색 UX · RSS 피드 |
+| **다음 작업** | Q-11 Evergreen 파이프라인 · 성능 최적화 · Search Console sitemap 제출 |
 
 ---
 
@@ -50,6 +50,11 @@
   - `/privacy` `/terms` `/dmca` 정책 페이지 3개 (법적 필수)
   - `ShareButtons.tsx`: X(Post) + Copy Link (복사 성공 피드백)
   - `layout.tsx` footer: Privacy · Terms · DMCA 링크
+- [x] **뉴스레터 CTA + 검색 UX + RSS 피드** (커밋 bc7fe29)
+  - `NewsletterCTA.tsx`: inline(기사 2단락 뒤) / 풀 배너(홈) 2가지 모드, 다크모드 지원
+  - `SearchBar.tsx`: 결과 없음 UX + 포커스 시 카테고리 퀵링크
+  - `/api/feed.xml`: RSS 2.0 피드 (최신 20기사, 1시간 캐시)
+  - `layout.tsx`: `<head>` RSS auto-discovery + footer RSS 아이콘 링크
 - [x] **Q-09 인라인 링크 + 다크모드** (커밋 80060bf)
   - `db.ts`: `getTagLinkedArticles()` — 태그 LIKE 매칭으로 관련 기사 조회
   - `articles/[id]`: `LinkedParagraph` — 본문 첫 등장 태그에 dotted underline 링크
@@ -100,10 +105,16 @@
 
 ### 🟡 다음 세션 후보
 ```
-1. Q-11 Evergreen 콘텐츠 파이프라인 (월 1회 자동 생성)
-2. Q-12 독자 레벨별 톤 완전 분리
-3. 성능 최적화 (이미지 priority, LCP 개선)
+1. Q-11 Evergreen 콘텐츠 파이프라인
+   — 월 1회 "K-Pop 입문 가이드" 류 상시 기사 자동 생성 스크립트
+2. 성능 최적화
+   — LCP 이미지 priority 자동 설정
+   — next/image sizes 정밀 조정
+   — font display swap
+3. Q-12 독자 레벨별 톤 완전 분리
+   — general vs fan 프롬프트 분기
 4. Search Console sitemap.xml 제출 (유저 직접 진행)
+   → Search Console → Sitemaps → sitemap.xml 입력 후 제출
 ```
 
 ---
@@ -121,15 +132,17 @@
 세션 16   sitemap + 정책 페이지 + 소셜 공유 버튼 ✅
 세션 17   Q-08 시계열 맥락 + Q-10 유형별 프롬프트 구조 ✅
 세션 18   Q-09 내부 링크 + 다크모드 ✅
-세션 19   뉴스레터 인라인 CTA + 검색 UX 개선 + RSS 링크 ✅  ← 현재
+세션 19   뉴스레터 CTA + 검색 UX + RSS 피드 ✅  ← 현재
+세션 20   Q-11 Evergreen 파이프라인 OR 성능 최적화
 ```
 
 ---
 
 ## 현재 이슈 / 블로커
 
-- Search Console 소유권 확인 대기 중 (Vercel 배포 완료 후 "Google 애널리틱스" 방법 클릭 필요)
-- YouTube 채널 핸들 일부 미검증 (K-Drama tvN/@tvN_drama 등 — 첫 실행 로그로 확인 필요)
+- Search Console 소유권 확인 대기 중 → 배포 완료 후 "Google 애널리틱스" 방법 클릭
+- Search Console sitemap.xml 미제출 → 소유권 확인 후 직접 제출 필요
+- YouTube 채널 핸들 일부 미검증 → 첫 파이프라인 실행 로그로 확인 필요
 
 ---
 
