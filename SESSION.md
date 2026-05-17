@@ -6,8 +6,8 @@
 | 항목 | 내용 |
 |---|---|
 | **최종 업데이트** | 2026-05-17 |
-| **현재 단계** | Q-08 시계열 맥락 + Q-10 유형별 프롬프트 구조 완료 |
-| **다음 작업** | Q-09 내부 링크 + 다크모드 |
+| **현재 단계** | Q-09 인라인 링크 + 다크모드 완료 (QUALITY Q-02~Q-10 전부 완료) |
+| **다음 작업** | 뉴스레터 인라인 CTA · 검색 UX 개선 · RSS 링크 |
 
 ---
 
@@ -50,6 +50,12 @@
   - `/privacy` `/terms` `/dmca` 정책 페이지 3개 (법적 필수)
   - `ShareButtons.tsx`: X(Post) + Copy Link (복사 성공 피드백)
   - `layout.tsx` footer: Privacy · Terms · DMCA 링크
+- [x] **Q-09 인라인 링크 + 다크모드** (커밋 80060bf)
+  - `db.ts`: `getTagLinkedArticles()` — 태그 LIKE 매칭으로 관련 기사 조회
+  - `articles/[id]`: `LinkedParagraph` — 본문 첫 등장 태그에 dotted underline 링크
+  - `tailwind.config.js`: `darkMode: 'media'`
+  - `globals.css`: 다크모드 CSS 변수 오버라이드
+  - body / Header / footer / ArticleCard / SearchBar dark: 클래스 적용
 - [x] **Q-08 시계열 맥락 + Q-10 유형별 프롬프트** (커밋 fd79b8a)
   - `processor.py`: `_fetch_recent_headlines()` — 최근 7일 같은 카테고리 헤드라인 DB 조회
   - `_build_user_message()`: `recent_coverage_in_this_category` 컨텍스트 주입
@@ -92,26 +98,12 @@
 
 ## 다음 세션 할 일
 
-### 🔴 우선순위 1 — Search Console 마무리
+### 🟡 다음 세션 후보
 ```
-1. Vercel 배포 확인 후 Search Console → "Google 애널리틱스" 방법으로 소유권 확인 클릭
-2. sitemap.xml 존재 여부 확인 → 없으면 생성
-3. Search Console → Sitemaps → sitemap.xml 제출
-```
-
-### 🔴 우선순위 2 — 법적 필수 페이지
-```
-4. /privacy  — Privacy Policy
-5. /terms    — Terms of Use
-6. /dmca     — DMCA 정책 (Unsplash 이미지 사용 때문에 필수)
-   → website/app/privacy/page.tsx 등 정적 페이지로 작성
-```
-
-### 🟡 우선순위 3 — 사용자 경험
-```
-7. 소셜 공유 버튼 — 기사 상세 페이지 (X, Copy Link)
-8. 뉴스레터 구독 인라인 CTA — 기사 본문 중간 삽입
-9. 검색 결과 없음 UX 개선
+1. Q-11 Evergreen 콘텐츠 파이프라인 (월 1회 자동 생성)
+2. Q-12 독자 레벨별 톤 완전 분리
+3. 성능 최적화 (이미지 priority, LCP 개선)
+4. Search Console sitemap.xml 제출 (유저 직접 진행)
 ```
 
 ---
@@ -128,7 +120,8 @@
 세션 15   기사 품질 개선 Q-02~Q-07 ✅
 세션 16   sitemap + 정책 페이지 + 소셜 공유 버튼 ✅
 세션 17   Q-08 시계열 맥락 + Q-10 유형별 프롬프트 구조 ✅
-세션 18   Q-09 내부 링크 + 다크모드 ✅  ← 현재
+세션 18   Q-09 내부 링크 + 다크모드 ✅
+세션 19   뉴스레터 인라인 CTA + 검색 UX 개선 + RSS 링크 ✅  ← 현재
 ```
 
 ---
