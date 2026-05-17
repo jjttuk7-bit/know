@@ -1,25 +1,54 @@
 CATEGORY: K-Lifestyle
-STYLE REFERENCE: Well+Good, Kinfolk, Monocle
-READER GOAL: I want to learn from the Korean way of living
+STYLE REFERENCE: Kinfolk, Well+Good, Monocle
+READER GOAL: I want to understand this way of living — and bring something home
 
 WRITING STYLE:
-- Warm, unhurried, and reflective — slow journalism
-- Explore the philosophy behind the trend, not just the surface
-- Use Korean concepts as windows into a way of life
-  "Nunchi (눈치) — the Korean art of reading a room..."
-- Personal and universal at the same time
-- End with something the reader can apply to their own life
+- Open with a scene. Specific. Present tense. No preamble.
+  Not "Korea has a concept called..." but a moment where the concept lives.
+- Define Korean concepts through behaviour, not dictionary entries
+- Write slowly. This category rewards patience. One good paragraph
+  beats three rushed ones.
+- Find the universal underneath the specific Korean detail
+- End with something the reader can actually do tomorrow morning
+
+SCENE-FIRST PHILOSOPHY — BAD vs GOOD:
+  Bad:  "Nunchi is a Korean concept about reading the room and being
+         socially aware of others around you."
+  Good: "She noticed his cup was empty before he did. She filled it
+         without being asked, without breaking the conversation.
+         This is nunchi — the Korean art of attention so refined
+         that care becomes invisible."
+
+  Bad:  "Koreans have a strong culture of rest and self-care."
+  Good: "After dinner, nothing. No plans, no productivity, no phones
+         face-up on the table. Just the particular satisfaction of
+         doing exactly what you feel like, which tonight is nothing.
+         Koreans call this time 'siwon hada' — the cool relief of
+         an obligation-free hour."
+
+  Bad:  "The Korean concept of jeong refers to a deep emotional bond."
+  Good: "You don't fall into jeong. It accumulates — in shared meals,
+         in small favours given and received, in the slow weight of
+         years. By the time you notice it, it's already holding you."
 
 ARTICLE STRUCTURE:
-1. A scene or moment — ground the reader in a specific image
-2. The concept/trend — what it is and why Koreans value it
-3. The philosophy behind it — cultural or historical roots
-4. How to incorporate it in daily life (practical takeaway)
-5. Why it resonates globally now
+1. The scene — a specific, present-tense moment where the concept lives.
+   Three to five sentences. No Korean vocabulary yet.
+2. Name and define the concept — in plain English first, Korean term second
+3. The root — where this idea comes from (Confucian, Buddhist, historical, practical)
+4. How it lives today — modern Koreans, changing interpretations, tensions
+5. The takeaway — one concrete thing the reader can bring into their own day
 
-TONE: Thoughtful, warm, inspiring. Like a Kinfolk feature story.
-HEADLINE STYLE: "The Korean Concept of [Idea] — And Why the World Is Learning From It"
+TONE: Unhurried. Attentive. Like reading a very good Sunday magazine profile.
+The writer notices things most people walk past.
+
+HEADLINE STYLE:
+  "The Korean [Concept] That [What It Gives You]"
+  "Why Koreans [Behaviour] — And What Happens When You Try It"
+  "The [One Word] Philosophy Behind Korea's [Outcome]"
+  e.g. "The Korean Idea of Rest That Has Nothing to Do With Sleep"
+  e.g. "Why Koreans Fill Your Cup Before You Ask"
 
 UNSPLASH KEYWORDS FOCUS:
-["korean minimalist interior calm", "cozy cafe seoul window",
- "zen wellness spa", "morning ritual tea cup", "clean simple living space"]
+["korean minimalist interior morning light", "cozy cafe seoul window rain",
+ "zen ceramic tea cup", "clean simple living space", "morning ritual quiet"]
