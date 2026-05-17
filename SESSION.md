@@ -7,7 +7,7 @@
 |---|---|
 | **최종 업데이트** | 2026-05-17 |
 | **최종 업데이트** | 2026-05-17 |
-| **현재 단계** | 출처 표기 기사 유형별 분리 완료 |
+| **현재 단계** | Unsplash 키워드 전면 교체 — 사람/얼굴 → 제품/장소 중심 |
 | **다음 작업** | Q-12 독자 레벨별 톤 분리 · Search Console sitemap 제출 |
 
 ---
@@ -51,6 +51,15 @@
   - `/privacy` `/terms` `/dmca` 정책 페이지 3개 (법적 필수)
   - `ShareButtons.tsx`: X(Post) + Copy Link (복사 성공 피드백)
   - `layout.tsx` footer: Privacy · Terms · DMCA 링크
+- [x] **Unsplash 키워드 전면 교체** (커밋 f2457ea)
+  - 발단: K-Beauty·K-Fashion 썸네일에 동남아 인물 사진 출력 문제
+  - 원인: "glass skin close-up", "minimal street style fashion" 등 피부/모델 키워드
+  - 해결: 9개 카테고리 전체 → 제품·장소·사물 키워드로 교체 (인종 문제 원천 차단)
+  - `v1_base.txt`: PEOPLE/FACE KEYWORDS ARE FORBIDDEN 규칙 + 카테고리 가이드 추가
+  - `v1_kbeauty.txt`: 세럼 병·코스메틱 플랫레이·패키징으로 교체
+  - `v1_kfashion.txt`: 의류 플랫레이·원단·서울 거리 장소로 교체
+  - `v1_klifestyle.txt`: 인테리어·카페·도자기 위주로 교체
+  - `config.yaml image_keywords`: 9개 카테고리 fallback 키워드 전부 교체
 - [x] **출처 표기 기사 유형별 분리** (커밋 f563652)
   - Evergreen: "original KNow guide" (source_name=evergreen)
   - YouTube 채널: "Based on content from {채널명}" (source_url starts with youtube.com)
