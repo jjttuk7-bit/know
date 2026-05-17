@@ -163,7 +163,7 @@ export default function ArticlePage({ params }: Props) {
           <h2 className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-4">
             More from {article.category}
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {related.map(a => (
               <ArticleCard key={a.id} article={a} />
             ))}

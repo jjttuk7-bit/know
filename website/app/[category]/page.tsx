@@ -28,7 +28,7 @@ export default function CategoryPage({ params }: Props) {
 
   return (
     <div className="space-y-8">
-      <div className="rounded-card px-8 py-6 text-white" style={{ background: bg }}>
+      <div className="rounded-card px-5 sm:px-8 py-6 text-white" style={{ background: bg }}>
         <p className="text-white/60 text-xs uppercase tracking-widest mb-1">Category</p>
         <h1 className="text-3xl font-bold">{cat}</h1>
         <p className="text-white/70 text-sm mt-1">

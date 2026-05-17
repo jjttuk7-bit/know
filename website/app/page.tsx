@@ -28,7 +28,7 @@ export default function HomePage() {
             className="group block rounded-card overflow-hidden border border-[#E8E6DF] hover:shadow-lg transition-shadow"
           >
             <div
-              className="relative aspect-[21/9] overflow-hidden"
+              className="relative aspect-[4/3] sm:aspect-[16/9] md:aspect-[21/9] overflow-hidden"
               style={{ background: getCatColor(featured.category).bg }}
             >
               {featured.image_url && featured.image_source !== 'og_generated' && (

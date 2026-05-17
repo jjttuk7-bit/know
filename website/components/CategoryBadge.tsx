@@ -11,7 +11,7 @@ interface Props {
 export default function CategoryBadge({ category, linked = false, size = 'md' }: Props) {
   const { badgeBg, badgeText } = getCatColor(category)
   const cls = `inline-block rounded font-semibold uppercase tracking-wider
-    ${size === 'sm' ? 'text-[10px] px-2 py-0.5' : 'text-xs px-3 py-1'}`
+    ${size === 'sm' ? 'text-[11px] px-2 py-0.5' : 'text-xs px-3 py-1'}`
 
   const badge = (
     <span className={cls} style={{ background: badgeBg, color: badgeText }}>

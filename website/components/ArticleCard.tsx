@@ -21,7 +21,7 @@ export default function ArticleCard({ article, featured = false }: Props) {
         ${featured ? 'md:col-span-2' : ''}`}
     >
       {/* 이미지 영역 */}
-      <div className={`relative overflow-hidden ${featured ? 'aspect-[16/7]' : 'aspect-[16/9]'}`}
+      <div className={`relative overflow-hidden ${featured ? 'aspect-[16/9] md:aspect-[16/7]' : 'aspect-[16/9]'}`}
            style={{ background: bg }}>
         {article.image_url && article.image_source !== 'og_generated' ? (
           <Image
