@@ -1,8 +1,11 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import Script from 'next/script'
 import './globals.css'
 import Header from '@/components/Header'
 import { SITE_NAME, SITE_DESC } from '@/lib/config'
+
+const GA_ID = 'G-Q2Y7RWPBWF'
 
 const geist = Inter({ subsets: ['latin'], variable: '--font-geist-sans' })
 
@@ -15,6 +18,8 @@ export const metadata: Metadata = {
     locale:   'en_US',
   },
   twitter: { card: 'summary_large_image' },
+  // Search Console 소유권 확인 — 코드 입력 시 아래 주석 해제
+  // verification: { google: 'SEARCH_CONSOLE_CODE' },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -25,6 +30,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main className="max-w-6xl mx-auto px-4 py-8">
           {children}
         </main>
+        {/* GA4 */}
+        <Script src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} strategy="afterInteractive" />
+        <Script id="ga4" strategy="afterInteractive">{`
+          window.dataLayer=window.dataLayer||[];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js',new Date());
+          gtag('config','${GA_ID}');
+        `}</Script>
+
         <footer className="mt-16 bg-know-navy text-white/60 text-xs text-center py-6 px-4">
           <p>© {new Date().getFullYear()} KNow — K-culture news for global fans.</p>
           <p className="mt-1">
