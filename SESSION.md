@@ -7,7 +7,7 @@
 |---|---|
 | **최종 업데이트** | 2026-05-17 |
 | **최종 업데이트** | 2026-05-17 |
-| **현재 단계** | Unsplash 키워드 전면 교체 — 사람/얼굴 → 제품/장소 중심 |
+| **현재 단계** | 썸네일 스마트 선택 완료 — search API + 관련도 점수 |
 | **다음 작업** | Q-12 독자 레벨별 톤 분리 · Search Console sitemap 제출 |
 
 ---
@@ -51,6 +51,16 @@
   - `/privacy` `/terms` `/dmca` 정책 페이지 3개 (법적 필수)
   - `ShareButtons.tsx`: X(Post) + Copy Link (복사 성공 피드백)
   - `layout.tsx` footer: Privacy · Terms · DMCA 링크
+- [x] **썸네일 스마트 선택 고도화** (커밋 4e218bf)
+  - `image_fetcher.py`: `/photos/random` → `/search/photos` (관련도 정렬)
+  - 키워드당 3개 후보 수집 → `_score_candidate()` 관련도 점수 → 최고점 반환
+  - 점수: 헤드라인 단어(1.5pt) + 기사 태그(1.0pt) + 카테고리(0.5pt)
+  - `_ArticleContext` 데이터클래스로 기사 맥락 전달
+  - `v1_base.txt`: keyword 1순위 = 기사 주제 구체적 묘사 전략 명시
+- [x] **개별 기사 이미지 수동 교체** (커밋 3f2cd98 / 2518742 / 70d3a1c)
+  - K-Fashion Style Guide (id=145): 서울 패션위크 한국 여성
+  - Korean Street Food Guide (id=143): 떡볶이 클로즈업
+  - Ready-core 기사 (id=129): 야외 카페 노트북+아이스 음료
 - [x] **Unsplash 키워드 전면 교체** (커밋 f2457ea)
   - 발단: K-Beauty·K-Fashion 썸네일에 동남아 인물 사진 출력 문제
   - 원인: "glass skin close-up", "minimal street style fashion" 등 피부/모델 키워드
