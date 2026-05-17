@@ -6,7 +6,8 @@
 | 항목 | 내용 |
 |---|---|
 | **최종 업데이트** | 2026-05-17 |
-| **현재 단계** | 헤더 카테고리 폰트 데스크탑 개선 완료 |
+| **최종 업데이트** | 2026-05-17 |
+| **현재 단계** | 출처 표기 기사 유형별 분리 완료 |
 | **다음 작업** | Q-12 독자 레벨별 톤 분리 · Search Console sitemap 제출 |
 
 ---
@@ -50,6 +51,10 @@
   - `/privacy` `/terms` `/dmca` 정책 페이지 3개 (법적 필수)
   - `ShareButtons.tsx`: X(Post) + Copy Link (복사 성공 피드백)
   - `layout.tsx` footer: Privacy · Terms · DMCA 링크
+- [x] **출처 표기 기사 유형별 분리** (커밋 f563652)
+  - Evergreen: "original KNow guide" (source_name=evergreen)
+  - YouTube 채널: "Based on content from {채널명}" (source_url starts with youtube.com)
+  - Naver / Yonhap / Daum: 기존 뉴스 출처 표기 유지
 - [x] **헤더 카테고리 폰트 개선** (커밋 962afbf)
   - 모바일 `text-xs px-3` 유지
   - 데스크탑(sm+) `text-sm px-4` — 14px로 가독성 개선
