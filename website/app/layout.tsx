@@ -18,8 +18,7 @@ export const metadata: Metadata = {
     locale:   'en_US',
   },
   twitter: { card: 'summary_large_image' },
-  // Search Console 소유권 확인 — 코드 입력 시 아래 주석 해제
-  // verification: { google: 'SEARCH_CONSOLE_CODE' },
+  verification: { google: 'sBPk0JemMnPNQg1-iQuDLX6ikDp52y5-OAwCtLyIFaI' },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
