@@ -42,6 +42,11 @@ CREATE TABLE IF NOT EXISTS articles (
     video_id          TEXT,                        -- YouTube video ID (embed 전용)
     video_source      TEXT,                        -- "youtube_official" | null
 
+    -- 품질 메타 (Q-03 ~ Q-05)
+    global_reaction   TEXT,                        -- 글로벌/팬덤 반응 1문장
+    content_type      TEXT DEFAULT 'breaking',     -- "breaking|evergreen|analysis|profile"
+    reader_level      TEXT DEFAULT 'general'       -- "general|fan"
+
     -- 타임스탬프
     published_at_ko   DATETIME,                    -- 원문 게시 시각
     fetched_at        DATETIME NOT NULL DEFAULT (datetime('now')),

@@ -76,18 +76,18 @@ class ImageFetcher:
                 if result:
                     return result
 
-            # 2. Unsplash (LLM 키워드)
-            if unsplash_keywords:
-                result = await self._fetch_unsplash(client, unsplash_keywords)
+            # 2. Unsplash (LLM 키워드 — 1개씩 순차 시도, Q-06)
+            for kw in unsplash_keywords:
+                result = await self._fetch_unsplash(client, [kw])
                 if result:
                     return result
 
-            # 3. Unsplash (config 기본 키워드)
-            default_kws = self._default_keywords.get(category, [])
-            if default_kws and default_kws != unsplash_keywords:
-                result = await self._fetch_unsplash(client, default_kws)
-                if result:
-                    return result
+            # 3. Unsplash (config 기본 키워드 — 1개씩 순차 시도)
+            for kw in self._default_keywords.get(category, []):
+                if kw not in unsplash_keywords:
+                    result = await self._fetch_unsplash(client, [kw])
+                    if result:
+                        return result
 
         logger.warning("이미지 페치 실패 [%s]", category)
         return None

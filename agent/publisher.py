@@ -102,15 +102,44 @@ class Publisher:
         image: ImageResult | None,
         video_id: str | None = None,
     ) -> Article | None:
-        # source_url UNIQUE 제약 보완 — 애플리케이션 레벨 중복 체크
+        # 1. source_url 중복 체크
         exists = session.query(
             session.query(Article)
             .filter_by(source_url=article.source_url)
             .exists()
         ).scalar()
         if exists:
-            logger.debug("중복 스킵: %s", article.source_url)
+            logger.debug("중복 스킵 (URL): %s", article.source_url)
             return None
+
+        # 2. 당일 동일 카테고리 + 태그 2개 이상 겹침 방지 (Q-07)
+        if article.tags:
+            today_str = date.today().isoformat()
+            today_rows = (
+                session.query(Article.tags)
+                .filter(
+                    Article.category == article.category,
+                    Article.published == True,
+                    Article.fetched_at >= today_str,
+                )
+                .all()
+            )
+            import json as _json
+            new_tags = set(article.tags)
+            for (tags_json,) in today_rows:
+                if not tags_json:
+                    continue
+                try:
+                    existing = set(_json.loads(tags_json))
+                except Exception:
+                    continue
+                if len(new_tags & existing) >= 2:
+                    logger.info(
+                        "당일 중복 스킵 [%s]: 태그 겹침 %s",
+                        article.category,
+                        new_tags & existing,
+                    )
+                    return None
 
         row = Article(
             # 수집 원본
@@ -139,6 +168,11 @@ class Publisher:
             published=True,
             prompt_version=article.prompt_version,
         )
+
+        # 품질 메타
+        row.global_reaction = article.global_reaction
+        row.content_type    = article.content_type
+        row.reader_level    = article.reader_level
 
         # 이미지 (없으면 website가 og_generated 사용)
         if image:

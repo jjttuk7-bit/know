@@ -53,6 +53,18 @@ export default function ArticlePage({ params }: Props) {
       <header className="space-y-3">
         <div className="flex items-center gap-2 flex-wrap">
           <CategoryBadge category={article.category} linked size="md" />
+          {article.content_type && article.content_type !== 'breaking' && (
+            <span className="text-[10px] font-semibold uppercase tracking-wider
+                             px-2 py-0.5 rounded bg-gray-100 text-gray-500">
+              {article.content_type}
+            </span>
+          )}
+          {article.reader_level === 'fan' && (
+            <span className="text-[10px] font-semibold uppercase tracking-wider
+                             px-2 py-0.5 rounded bg-amber-50 text-amber-600">
+              Fan Level
+            </span>
+          )}
           <span className="text-xs text-gray-400">{formatDate(article.published_at_ko)}</span>
           <span className="text-xs text-gray-400">· {readTime(article.body_en)} min read</span>
         </div>
@@ -138,6 +150,14 @@ export default function ArticlePage({ params }: Props) {
           <p key={i}>{para}</p>
         ))}
       </div>
+
+      {/* ── Global Reaction ─────────────────────────────────── */}
+      {article.global_reaction && (
+        <div className="flex gap-3 rounded-card bg-know-navy/5 border border-know-navy/10 px-4 py-3">
+          <span className="text-lg leading-none">🌍</span>
+          <p className="text-sm text-know-navy/80 leading-relaxed">{article.global_reaction}</p>
+        </div>
+      )}
 
       {/* ── Cultural Note ────────────────────────────────────── */}
       {article.cultural_note && (

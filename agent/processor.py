@@ -89,6 +89,9 @@ class ProcessedArticle:
     tags:              list[str] = field(default_factory=list)
     tone:              str       = "informative"
     cultural_note:     str | None = None
+    global_reaction:   str | None = None
+    content_type:      str        = "breaking"
+    reader_level:      str        = "general"
     unsplash_keywords: list[str] = field(default_factory=list)
 
 
@@ -223,6 +226,9 @@ class Processor:
             tags=tags,
             tone=str(data.get("tone", "informative")),
             cultural_note=data.get("cultural_note") or None,
+            global_reaction=data.get("global_reaction") or None,
+            content_type=str(data.get("content_type", "breaking")),
+            reader_level=str(data.get("reader_level", "general")),
             unsplash_keywords=keywords,
         )
 

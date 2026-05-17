@@ -29,6 +29,9 @@ export interface ArticleRow {
   image_credit_url: string | null
   video_id:         string | null
   video_source:     string | null
+  global_reaction:  string | null
+  content_type:     string | null
+  reader_level:     string | null
   published_at_ko:  string
   prompt_version:   string | null
 }

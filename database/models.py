@@ -91,6 +91,11 @@ class Article(Base):
     video_id:     Mapped[str | None] = mapped_column(Text)          # YouTube video ID
     video_source: Mapped[str | None] = mapped_column(Text)          # "youtube_official"
 
+    # 품질 메타 (Q-03 ~ Q-05)
+    global_reaction: Mapped[str | None] = mapped_column(Text)       # 글로벌/팬덤 반응 1문장
+    content_type:    Mapped[str | None] = mapped_column(Text, default="breaking")
+    reader_level:    Mapped[str | None] = mapped_column(Text, default="general")
+
     # 타임스탬프
     published_at_ko: Mapped[datetime | None] = mapped_column(DateTime)
     fetched_at:      Mapped[datetime]        = mapped_column(

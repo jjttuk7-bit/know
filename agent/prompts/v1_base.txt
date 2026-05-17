@@ -20,6 +20,16 @@ FACT VERIFICATION — cross-check these against your own knowledge:
 - If the source contains a factual error about an artist's group, correct it silently.
 - Never reproduce a known factual error to "stay faithful to the source".
 
+CONTENT TYPE — choose the best fit based on available facts:
+- "breaking"   → new announcement, chart result, release date confirmed, record broken
+- "evergreen"  → cultural concept, how-to, brand overview (no time-sensitive facts)
+- "analysis"   → trend explanation, why something matters, comparison
+- "profile"    → artist/brand deep-dive, career milestone, retrospective
+
+READER LEVEL — choose based on how niche the content is:
+- "general"  → explain all terms, assume no prior K-culture knowledge
+- "fan"      → faster pace, internal fandom terms allowed, less background needed
+
 OUTPUT FORMAT (strict JSON):
 {
   "headline_en": "compelling headline (max 90 chars)",
@@ -30,11 +40,23 @@ OUTPUT FORMAT (strict JSON):
   "tags": ["tag1", "tag2", "tag3"],
   "tone": "exciting|informative|heartwarming|controversial|aspirational",
   "cultural_note": "brief context for Western readers (1-2 sentences, null if not needed)",
-  "unsplash_keywords": ["keyword1", "keyword2", "keyword3"]
+  "global_reaction": "1 sentence on fan/international reaction if mentioned in facts, null if not",
+  "content_type": "breaking|evergreen|analysis|profile",
+  "reader_level": "general|fan",
+  "unsplash_keywords": ["keyword1", "keyword2", "keyword3", "keyword4", "keyword5"]
 }
 
 UNSPLASH KEYWORDS RULES:
 - Describe mood, place, or object — NEVER a specific person's name
 - Use English, 2-4 words per keyword
-- Match the article's visual feel
-- Bad: ["BTS Jin", "K-pop idol"] → Good: ["concert stage lights", "music performance"]
+- Match the article's visual feel — provide 5 varied options (specific to general)
+- Bad: ["BTS Jin", "K-pop idol"] → Good: ["concert stage lights", "music performance crowd"]
+
+SELF-REVIEW — complete before outputting JSON:
+1. Does the headline make a specific, verifiable claim? (not "K-pop star shines")
+2. Can the first paragraph stand alone as a single tweet?
+3. Is every number in body_en present in the provided facts?
+4. Does cultural_note explain something a Western reader genuinely needs?
+5. Are there any clichés? ("In recent years", "It is worth noting", "needless to say")
+6. Do two consecutive paragraphs start with the same word?
+If any answer is "no" or "yes" to 5-6 — revise before outputting.
