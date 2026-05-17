@@ -15,7 +15,7 @@ from __future__ import annotations
 import asyncio
 import logging
 import os
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 
 import httpx
@@ -30,6 +30,16 @@ _YOUTUBE_CATEGORIES = {"K-Pop", "K-Drama"}
 
 # YouTube 영상 embed를 검색하는 카테고리
 _YOUTUBE_VIDEO_CATEGORIES = {"K-Pop", "K-Drama", "K-Entertainment", "K-Travel", "K-Sport"}
+
+
+# ─────────────────────────────────────────────────────────────
+# 내부 컨텍스트 — 관련도 점수 산출에 사용
+# ─────────────────────────────────────────────────────────────
+@dataclass
+class _ArticleContext:
+    headline: str
+    tags:     list[str] = field(default_factory=list)
+    category: str       = ""
 
 
 # ─────────────────────────────────────────────────────────────
@@ -56,98 +66,159 @@ class ImageFetcher:
 
     # ── 공개 API ──────────────────────────────────────────────
 
-    async def fetch(
-        self,
-        unsplash_keywords: list[str],
-        category: str,
-        youtube_id: str | None = None,
-    ) -> ImageResult | None:
-        """
-        이미지 우선순위:
-          1. YouTube 공식 썸네일 (K-Pop·K-Drama + youtube_id 있을 때)
-          2. Unsplash — LLM 생성 키워드
-          3. Unsplash — config 기본 키워드 (fallback)
-          4. None (publisher가 og_generated로 처리)
-        """
-        async with httpx.AsyncClient(timeout=8, follow_redirects=True) as client:
-            # 1. YouTube 썸네일
-            if youtube_id and category in _YOUTUBE_CATEGORIES:
-                result = await self._fetch_youtube(client, youtube_id)
-                if result:
-                    return result
-
-            # 2. Unsplash (LLM 키워드 — 1개씩 순차 시도, Q-06)
-            for kw in unsplash_keywords:
-                result = await self._fetch_unsplash(client, [kw])
-                if result:
-                    return result
-
-            # 3. Unsplash (config 기본 키워드 — 1개씩 순차 시도)
-            for kw in self._default_keywords.get(category, []):
-                if kw not in unsplash_keywords:
-                    result = await self._fetch_unsplash(client, [kw])
-                    if result:
-                        return result
-
-        logger.warning("이미지 페치 실패 [%s]", category)
-        return None
-
     async def fetch_for_article(
         self,
         article: ProcessedArticle,
         youtube_id: str | None = None,
     ) -> ImageResult | None:
-        return await self.fetch(
-            unsplash_keywords=article.unsplash_keywords,
-            category=article.category,
-            youtube_id=youtube_id,
-        )
+        """
+        이미지 우선순위:
+          1. YouTube 공식 썸네일 (K-Pop·K-Drama + youtube_id 있을 때)
+          2. Unsplash — LLM 생성 키워드 (관련도 점수 최고점 선택)
+          3. Unsplash — config 기본 키워드 (fallback)
+          4. None (publisher가 og_generated로 처리)
+        """
+        async with httpx.AsyncClient(timeout=12, follow_redirects=True) as client:
+            # 1. YouTube 썸네일
+            if youtube_id and article.category in _YOUTUBE_CATEGORIES:
+                result = await self._fetch_youtube(client, youtube_id)
+                if result:
+                    return result
 
-    # ── Unsplash API ──────────────────────────────────────────
+            # 2. Unsplash — 모든 LLM 키워드로 후보 수집 → 관련도 최고점 선택
+            ctx = _ArticleContext(
+                headline=article.headline_en,
+                tags=article.tags or [],
+                category=article.category,
+            )
+            result = await self._fetch_best_unsplash(
+                client,
+                keywords=article.unsplash_keywords,
+                ctx=ctx,
+            )
+            if result:
+                return result
 
-    async def _fetch_unsplash(
+            # 3. config 기본 키워드로 재시도
+            fallback_kws = [
+                kw for kw in self._default_keywords.get(article.category, [])
+                if kw not in article.unsplash_keywords
+            ]
+            result = await self._fetch_best_unsplash(client, keywords=fallback_kws, ctx=ctx)
+            if result:
+                return result
+
+        logger.warning("이미지 페치 실패 [%s]", article.category)
+        return None
+
+    # ── Unsplash 검색 + 관련도 점수 선택 ────────────────────────
+
+    async def _fetch_best_unsplash(
         self,
         client: httpx.AsyncClient,
         keywords: list[str],
+        ctx: "_ArticleContext",
+        candidates_per_kw: int = 3,
     ) -> ImageResult | None:
-        # 첫 2개 키워드만 사용 (API 권장)
-        query = " ".join(keywords[:2])
-        params = {
-            "query":          query,
-            "orientation":    "landscape",
-            "content_filter": "high",   # 안전한 이미지만
-        }
+        """
+        각 키워드로 상위 N개 후보 수집 → 기사 관련도 점수 → 최고점 반환.
+        /search/photos (관련도 정렬) 사용 — /photos/random 대비 정확도 대폭 향상.
+        """
+        all_candidates: list[dict] = []
         headers = {"Authorization": f"Client-ID {self._access_key}"}
 
-        async with self._semaphore:
-            try:
-                r = await client.get(
-                    "https://api.unsplash.com/photos/random",
-                    params=params,
-                    headers=headers,
-                )
-                r.raise_for_status()
-            except httpx.HTTPStatusError as exc:
-                # 401: API 키 문제, 403: 한도 초과
-                logger.warning("Unsplash HTTP 오류 [%s]: %s", query, exc.response.status_code)
-                return None
-            except httpx.HTTPError as exc:
-                logger.warning("Unsplash 연결 오류 [%s]: %s", query, exc)
-                return None
+        for kw in keywords:
+            if not kw:
+                continue
+            async with self._semaphore:
+                try:
+                    r = await client.get(
+                        "https://api.unsplash.com/search/photos",
+                        params={
+                            "query":          kw,
+                            "orientation":    "landscape",
+                            "content_filter": "high",
+                            "per_page":       candidates_per_kw,
+                        },
+                        headers=headers,
+                    )
+                    r.raise_for_status()
+                    results = r.json().get("results", [])
+                    all_candidates.extend(results)
+                    logger.debug("Unsplash [%s]: %d 후보", kw[:40], len(results))
+                except httpx.HTTPStatusError as exc:
+                    logger.warning("Unsplash HTTP 오류 [%s]: %s", kw[:30], exc.response.status_code)
+                except httpx.HTTPError as exc:
+                    logger.warning("Unsplash 연결 오류 [%s]: %s", kw[:30], exc)
 
-        data = r.json()
+        if not all_candidates:
+            return None
+
+        # 관련도 점수 계산 후 최고점 선택
+        scored = [
+            (self._score_candidate(d, ctx), d)
+            for d in all_candidates
+        ]
+        scored.sort(key=lambda x: x[0], reverse=True)
+        best_score, best = scored[0]
+        logger.debug(
+            "Unsplash 최고점 선택 (%.1f점): %s",
+            best_score,
+            best.get("alt_description", "")[:50],
+        )
+
         try:
             return ImageResult(
-                url=data["urls"]["regular"],
+                url=best["urls"]["regular"],
                 source="unsplash",
-                credit=data["user"]["name"],
-                credit_url=data["user"]["links"]["html"],
-                # Unsplash 정책: image_license 컬럼에 기록 (DB 감사 추적용)
-                license=f"Unsplash License — {data.get('links', {}).get('html', '')}",
+                credit=best["user"]["name"],
+                credit_url=best["user"]["links"]["html"],
+                license=f"Unsplash License — {best.get('links', {}).get('html', '')}",
             )
         except (KeyError, TypeError) as exc:
-            logger.warning("Unsplash 응답 파싱 실패 [%s]: %s", query, exc)
+            logger.warning("Unsplash 파싱 실패: %s", exc)
             return None
+
+    def _score_candidate(self, candidate: dict, ctx: "_ArticleContext") -> float:
+        """
+        이미지 alt_description / description / photo tags와
+        기사 헤드라인·태그·카테고리 단어 겹침 점수 산출.
+        """
+        # 이미지 설명 텍스트 통합
+        img_text = " ".join(filter(None, [
+            candidate.get("alt_description") or "",
+            candidate.get("description") or "",
+            " ".join(t.get("title", "") for t in candidate.get("tags", [])),
+        ])).lower()
+
+        if not img_text:
+            return 0.0
+
+        score = 0.0
+
+        # 헤드라인 단어 (길이 3자 이상, 불용어 제외)
+        _STOP = {"the", "and", "for", "with", "from", "this", "that", "are", "was",
+                 "has", "have", "been", "not", "its", "their", "how", "why", "what"}
+        headline_words = [
+            w for w in ctx.headline.lower().split()
+            if len(w) > 3 and w not in _STOP
+        ]
+        for word in headline_words:
+            if word in img_text:
+                score += 1.5
+
+        # 기사 태그
+        for tag in ctx.tags:
+            if tag.lower() in img_text:
+                score += 1.0
+
+        # 카테고리 키워드 힌트
+        cat_hint = ctx.category.lower().replace("k-", "korean ")
+        for part in cat_hint.split():
+            if len(part) > 3 and part in img_text:
+                score += 0.5
+
+        return score
 
     # ── YouTube 공식 썸네일 ───────────────────────────────────
 
