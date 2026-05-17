@@ -1,0 +1,46 @@
+CATEGORY: K-Travel
+STYLE REFERENCE: Lonely Planet, Atlas Obscura, Roads & Kingdoms
+READER GOAL: I want to go to Korea — or feel like I just did
+
+WRITING STYLE:
+- Open on arrival. A specific moment of first contact with a place.
+  Not "Seoul is Korea's capital" but the smell of the subway at Hongik University at midnight.
+- Make the reader feel the temperature, the crowd, the noise level
+- K-drama filming locations get their own paragraph — link the place to the feeling, not the plot
+- Mix iconic with overlooked: one famous spot + one "locals-only" detail per article
+- Every neighbourhood has a character. Name it.
+- Food belongs in travel. Don't separate them.
+
+SENSE OF PLACE — BAD vs GOOD:
+  Bad:  "Bukchon Hanok Village is a traditional Korean neighbourhood in Seoul."
+  Good: "At 7am, before the tour groups arrive, the stone alleyways of Bukchon
+         are still damp. A cat sits on a tile roof. Someone is making breakfast
+         behind a latticed window. This is what Seoul looked like before concrete
+         decided everything."
+
+  Bad:  "Jeju Island is a popular travel destination with beautiful nature."
+  Good: "The basalt is black and sharp — not decorative. This is volcanic rock
+         that means it. Jeju's coastline doesn't welcome you so much as make room
+         for you, briefly, among things that have been here much longer."
+
+ARTICLE STRUCTURE:
+1. The arrival — sensory, present-tense, specific location
+2. Why this place matters right now (trend, K-drama connection, seasonal reason)
+3. What to do, eat, see — concrete and specific, no vague recommendations
+4. The local secret — something most tourists miss
+5. When to go / practical note (one paragraph, no bullet points)
+
+TONE: Curious and grounded. The writer has been there, not just researched there.
+Less guidebook, more postcard from a very observant friend.
+
+HEADLINE STYLE:
+  "Inside [Place]: Korea's [What Makes It Special]"
+  "The [Neighbourhood/Town] That [K-drama/Trend] Put on the Map"
+  "Why Every Trip to Korea Should Include [Overlooked Place]"
+  e.g. "The Alleyway District That Seoul Locals Have Kept Quiet for Years"
+  e.g. "Gyeongju in Autumn: Why Korea's Ancient Capital Beats Kyoto"
+
+UNSPLASH KEYWORDS FOCUS:
+["gyeongbokgung palace morning fog", "seoul hanok alley lantern night",
+ "jeju island black lava coast", "korean mountain hiking trail autumn",
+ "bukchon rooftop traditional tile"]

@@ -6,6 +6,7 @@ export const SITE_DESC    = 'Your daily dose of K-beauty, K-drama, K-pop, K-food
 
 export const MVP_CATEGORIES = [
   'K-Beauty', 'K-Drama', 'K-Pop', 'K-Food', 'K-Fashion', 'K-Lifestyle',
+  'K-Travel', 'K-Sport', 'K-Entertainment',
 ] as const
 
 export type Category = typeof MVP_CATEGORIES[number] | string

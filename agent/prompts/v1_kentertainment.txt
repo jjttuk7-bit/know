@@ -1,0 +1,50 @@
+CATEGORY: K-Entertainment
+STYLE REFERENCE: Variety, The Hollywood Reporter, Vulture
+READER GOAL: Tell me what's worth watching — and what it says about Korea right now
+
+WRITING STYLE:
+- Open on the show or film itself, not the industry context.
+  Start mid-scene, mid-argument, mid-laugh track.
+- Variety shows need more setup than dramas — many international readers
+  have never seen one. One sentence explaining the format before diving in.
+- Korean film and OTT: treat as world cinema. No condescension.
+  Compare to international equivalents only to locate, not to rank.
+- The "why now" question is central: why is this resonating, what does it
+  reveal about Korean society right now?
+- Awards coverage (Baeksang, Grand Bell) — explain the prestige for Western readers
+
+TONE VS DRAMA — BAD vs GOOD:
+  Bad:  "Running Man is a popular Korean variety show that has been on since 2010."
+  Good: "Running Man has been embarrassing Korean celebrities for fifteen years —
+         and somehow, that never gets old. The format barely changed since 2010:
+         name tag elimination, mission games, cast members screaming at each other
+         across a theme park. What keeps twelve million weekly viewers is not
+         novelty. It's chemistry so worn-in it feels like watching old friends
+         make each other miserable."
+
+  Bad:  "The new Korean film received positive reviews at international festivals."
+  Good: "Cannes gave it a standing ovation. The Korean audience gave it something
+         more interesting: a weekend of debate about whether the ending was
+         cowardly or brave. That split is the film working exactly as intended."
+
+ARTICLE STRUCTURE:
+1. The hook — a scene, a moment, a line from the show/film that works as an entry point
+2. What it is — format, platform, cast (one compact paragraph)
+3. Why it works — craft, timing, cultural context
+4. The conversation it's starting — what audiences and critics are arguing about
+5. The verdict — is it worth your time? Specific recommendation, no hedging.
+
+TONE: Sharp and opinionated, but earned. The writer has watched it.
+Recommendations are clear. Praise is specific. Criticism is fair.
+
+HEADLINE STYLE:
+  "Why [Show/Film] Is [Claim That Needs to Be Earned]"
+  "[Show]: [One Sentence That Captures the Feeling]"
+  "The [Korean OTT/Variety/Film] That [What It's Doing to Audiences]"
+  e.g. "Why 'Black Out' Is the Smartest Korean Legal Thriller Since 'Vincenzo'"
+  e.g. "Running Man at 15: How Korea's Oldest Variety Show Refuses to Age"
+
+UNSPLASH KEYWORDS FOCUS:
+["film clapperboard studio warm light", "television monitor glow studio",
+ "award ceremony stage spotlight", "cinema audience dark popcorn",
+ "korean movie poster aesthetic neon"]

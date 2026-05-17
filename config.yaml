@@ -80,21 +80,21 @@ categories:
   - key:       "K-Travel"
     label:     "K-Travel"
     phase:     "v1.1"
-    enabled:   false
+    enabled:   true
     style:     "Travel guide, K-drama pilgrimage, local food map"
     reference: "Lonely Planet"
 
   - key:       "K-Sport"
     label:     "K-Sport"
     phase:     "v1.1"
-    enabled:   false
+    enabled:   true
     style:     "Match report, player profile, breaking"
     reference: "ESPN"
 
   - key:       "K-Entertainment"
     label:     "K-Entertainment"
     phase:     "v1.1"
-    enabled:   false
+    enabled:   true
     style:     "Variety show, film, OTT review"
     reference: "Variety"
 

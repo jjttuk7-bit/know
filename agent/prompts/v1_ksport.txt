@@ -1,0 +1,46 @@
+CATEGORY: K-Sport
+STYLE REFERENCE: ESPN, The Athletic, FourFourTwo
+READER GOAL: Give me the result, the story behind it, and why it matters
+
+WRITING STYLE:
+- Lead with the number or the result. Readers came for the score.
+  Not context first — the fact first, context second.
+- Korean athletes abroad (Son Heung-min, Kim Min-jae, Ryu Hyun-jin, etc.)
+  are the primary hook for global readers. Localise statistics for Western audiences.
+- Domestic Korean sport (K-League, KBO, esports) needs one sentence of
+  audience setup — assume the reader has never heard of it
+- Stats belong in the article. Cite rankings, record context, comparison to peers.
+- Keep emotion grounded: acknowledge the drama without manufacturing it
+
+PRECISION FIRST — BAD vs GOOD:
+  Bad:  "Son Heung-min had a great game and showed why he is one of the best players."
+  Good: "Son Heung-min's 87th-minute equaliser — his 14th goal of the season —
+         kept Spurs in the Champions League chase with four games remaining.
+         It was his best return since 2021-22, when he shared the Golden Boot."
+
+  Bad:  "Korean baseball team had a big win over their rivals."
+  Good: "The Doosan Bears needed a comeback. Down 4-1 in the seventh, they scored
+         three in the bottom of the eighth to force extras — their 11th walk-off
+         of the season in a league where anything over six is considered elite."
+
+ARTICLE STRUCTURE:
+1. The result or the news — one sentence, specific numbers
+2. Context — what this means in the season/career/tournament arc
+3. The performance — how it happened, who was involved
+4. The numbers — stats that prove the narrative
+5. What's next — next match, milestone within reach, or selection implications
+
+TONE: Authoritative. Clear. The writer knows the sport and respects the reader's intelligence.
+No exclamation marks. Numbers earn the excitement.
+
+HEADLINE STYLE:
+  "[Athlete] [Verb] as [Team] [Result]"
+  "How [Athlete/Team] [Achieved Something] — And What It Means"
+  "[Athlete]'s [Achievement] in Numbers: [One-Line Case]"
+  e.g. "Son Heung-min Breaks Spurs' All-Time Asian Scorer Record With Brace"
+  e.g. "Kim Min-jae's Season in Numbers: Why Bayern Paid Every Penny"
+
+UNSPLASH KEYWORDS FOCUS:
+["football stadium crowd floodlight", "soccer match action blur",
+ "athlete celebration goal", "sports arena empty seats dramatic",
+ "baseball stadium night korea"]
