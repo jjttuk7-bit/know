@@ -7,8 +7,8 @@
 |---|---|
 | **최종 업데이트** | 2026-05-17 |
 | **최종 업데이트** | 2026-05-17 |
-| **현재 단계** | 썸네일 스마트 선택 완료 — search API + 관련도 점수 |
-| **다음 작업** | Q-12 독자 레벨별 톤 분리 · Search Console sitemap 제출 |
+| **현재 단계** | MONETIZATION.md 작성 완료 — 사이트 안정화 후 AdSense 진행 예정 |
+| **다음 작업** | GitHub Actions 첫 실행 확인 → Search Console sitemap 제출 → 안정화 체크 |
 
 ---
 
@@ -51,6 +51,12 @@
   - `/privacy` `/terms` `/dmca` 정책 페이지 3개 (법적 필수)
   - `ShareButtons.tsx`: X(Post) + Copy Link (복사 성공 피드백)
   - `layout.tsx` footer: Privacy · Terms · DMCA 링크
+- [x] **MONETIZATION.md 작성** (커밋 d5a949f)
+  - 안정화 완료 후 AdSense → 제휴 → 멤버십 단계별 수익화 로드맵
+  - Phase 1: Google AdSense + K-뷰티 제휴 마케팅
+  - Phase 2: 제휴 확장 + 스폰서 뉴스레터 (3~6개월)
+  - Phase 3: KNow+ 멤버십 + 브랜드 직접 협업 (6개월+)
+  - 수익 시뮬레이션 · 트래픽 전략 · 실행 순서 포함
 - [x] **썸네일 스마트 선택 고도화** (커밋 4e218bf)
   - `image_fetcher.py`: `/photos/random` → `/search/photos` (관련도 정렬)
   - 키워드당 3개 후보 수집 → `_score_candidate()` 관련도 점수 → 최고점 반환
@@ -152,18 +158,36 @@
 
 ## 다음 세션 할 일
 
-### 🟡 다음 세션 후보
+### 🔴 안정화 체크리스트 (수익화 전 필수)
+```
+1. GitHub Actions 첫 실행 확인
+   → 내일 KST 08:00 자동 실행 또는 workflow_dispatch로 수동 트리거
+   → 로그 확인: 수집 건수 / 이미지 히트율 / DB 저장 건수
+
+2. Search Console 소유권 확인 + sitemap 제출
+   → Google 애널리틱스 방법으로 확인 버튼 클릭
+   → Sitemaps → sitemap.xml 제출
+
+3. GA4 실시간 트래픽 확인
+   → analytics.google.com → 실시간 → 방문자 수 확인
+
+4. Vercel 배포 정상 확인
+   → know-red.vercel.app 페이지 실제 접속 테스트
+```
+
+### 🟡 다음 개발 후보
 ```
 1. Evergreen 주제 추가
-   — config.yaml에 새 slug 추가 후 python scripts/generate_evergreen.py 실행
-   — 추천 추가 주제: "bts-complete-guide", "k-beauty-brands-guide",
-     "korean-drama-vs-anime", "kpop-streaming-guide"
+   → "bts-complete-guide", "k-beauty-brands-guide", "kpop-streaming-guide"
 
 2. Q-12 독자 레벨별 톤 완전 분리
-   — reader_level=fan일 때 다른 프롬프트 사용 (팬덤 내부 용어 허용, 배경설명 생략)
+   → reader_level=fan 전용 프롬프트 (팬덤 내부 용어 허용)
 
-3. Search Console sitemap.xml 제출 (유저 직접 진행)
-   → Search Console → Sitemaps → sitemap.xml 입력 후 제출
+3. Pinterest / Reddit 공유 시작 (트래픽 확보)
+   → 무료, 즉시 가능
+
+4. Google AdSense 신청 (안정화 완료 후)
+   → MONETIZATION.md Step 1 참조
 ```
 
 ---
