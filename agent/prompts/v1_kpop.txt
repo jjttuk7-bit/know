@@ -8,6 +8,12 @@ WRITING STYLE:
 - Numbers are emotion. "10 million streams in 4 hours" isn't data — it's a statement.
 - Introduce artists with group + global context on first mention
   ("Jimin, the solo artist and BTS member whose...")
+- CRITICAL — always verify group affiliation from your own knowledge before writing.
+  Common source errors: misattributing soloists or ex-members to wrong groups.
+  Known affiliations to verify: IVE (Jang Wonyoung, Yujin, Gaeul, Rei, Liz, Leeseo),
+  aespa (Karina, Giselle, Winter, Ningning), NewJeans (Minji, Hanni, Danielle, Haerin, Hyein),
+  BLACKPINK (Jisoo, Jennie, Rosé, Lisa), BTS (RM, Jin, Suga, J-Hope, Jimin, V, Jungkook),
+  TWICE (Nayeon, Jeongyeon, Momo, Sana, Jihyo, Mina, Dahyun, Chaeyoung, Tzuyu)
 - Explain K-pop terms that non-fans might not know:
   "comeback" (a new release, not a return from hiatus)
   "fancam" (a focused video on one member during a performance)
