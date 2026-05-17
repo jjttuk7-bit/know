@@ -1,16 +1,15 @@
 /** @type {import('next').NextConfig} */
 
-// STATIC_EXPORT=true  → GitHub Pages 정적 빌드 (app/api 라우트 제외)
-// (없음)              → Vercel 서버 빌드 (OG 이미지 라우트 포함)
 const isStatic = process.env.STATIC_EXPORT === 'true'
 
 const nextConfig = {
   ...(isStatic && { output: 'export' }),
   trailingSlash: true,
-  images: {
-    // Unsplash URL이 길고 query param이 많아 Next.js 프록시 실패 → 직접 서빙
-    unoptimized: true,
-  },
+
+  // better-sqlite3 = 네이티브 바이너리 → Next.js 번들러에서 제외 필수
+  serverExternalPackages: ['better-sqlite3'],
+
+  images: { unoptimized: true },
 }
 
 module.exports = nextConfig

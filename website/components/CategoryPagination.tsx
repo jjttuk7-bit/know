@@ -12,7 +12,7 @@ export default function CategoryPagination({ slug, current, total, accent }: Pro
   const pages = buildPageList(current, total)
 
   const href = (p: number) =>
-    p === 1 ? `/${slug}/` : `/${slug}/page/${p}/`
+    p === 1 ? `/${slug}/` : `/${slug}/p/${p}/`
 
   return (
     <nav className="flex items-center justify-center gap-1" aria-label="Pagination">

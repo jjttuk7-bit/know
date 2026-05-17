@@ -1,4 +1,4 @@
-// 카테고리 N페이지 — SSG 서버 컴포넌트 (/k-beauty/page/2/ 형태)
+// 카테고리 N페이지 — SSG 서버 컴포넌트 (/k-beauty/p/2/ 형태)
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import ArticleCard from '@/components/ArticleCard'
