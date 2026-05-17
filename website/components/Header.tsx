@@ -1,8 +1,8 @@
 'use client'
-// 카테고리 네비게이션은 현재 경로에 따라 활성화 — 클라이언트 컴포넌트 필요
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import Logo from './Logo'
+import SearchBar from './SearchBar'
 import { MVP_CATEGORIES, catToSlug, getCatColor } from '@/lib/config'
 
 export default function Header() {
@@ -11,12 +11,10 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 bg-know-white/95 backdrop-blur border-b border-[#E8E6DF]">
       <div className="max-w-6xl mx-auto px-4">
-        {/* 상단 줄: 로고 + 슬로건 */}
-        <div className="flex items-center justify-between h-14">
+        {/* 상단 줄: 로고 + 검색 */}
+        <div className="flex items-center justify-between h-14 gap-4">
           <Logo size="sm" />
-          <p className="hidden md:block text-xs text-gray-400 tracking-wide">
-            Your daily dose of Korea
-          </p>
+          <SearchBar />
         </div>
 
         {/* 카테고리 네비 */}

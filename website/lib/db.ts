@@ -76,10 +76,16 @@ export function getRecentArticles(limit = 24): ArticleRow[] {
   , [])
 }
 
-// ── 카테고리 페이지 ───────────────────────────────────────────
+// ── 카테고리 페이지 (페이지네이션) ───────────────────────────
 
-export function getArticlesByCategory(category: string, limit = 20): ArticleRow[] {
-  return safe(() =>
+const PER_PAGE = 12
+
+export function getArticlesByCategory(
+  category: string,
+  page = 1,
+): { articles: ArticleRow[]; total: number; totalPages: number } {
+  const offset = (page - 1) * PER_PAGE
+  const articles = safe(() =>
     db().prepare(`
       SELECT id, headline_en, subheadline_en, seo_description, category,
              image_url, image_credit, image_credit_url, image_source,
@@ -87,8 +93,36 @@ export function getArticlesByCategory(category: string, limit = 20): ArticleRow[
       FROM   articles
       WHERE  published = 1 AND category = ?
       ORDER  BY published_at_ko DESC
-      LIMIT  ?
-    `).all(category, limit) as ArticleRow[]
+      LIMIT  ? OFFSET ?
+    `).all(category, PER_PAGE, offset) as ArticleRow[]
+  , [])
+  const total = safe(() =>
+    (db().prepare(
+      'SELECT COUNT(*) as n FROM articles WHERE published = 1 AND category = ?'
+    ).get(category) as { n: number }).n
+  , 0)
+  return { articles, total, totalPages: Math.ceil(total / PER_PAGE) }
+}
+
+// ── 검색 인덱스 (클라이언트 fuse.js용) ───────────────────────
+
+export interface ArticleIndex {
+  id: number
+  headline_en: string
+  seo_description: string | null
+  category: string
+  tags: string | null
+  published_at_ko: string
+}
+
+export function getAllArticleIndex(): ArticleIndex[] {
+  return safe(() =>
+    db().prepare(`
+      SELECT id, headline_en, seo_description, category, tags, published_at_ko
+      FROM   articles
+      WHERE  published = 1
+      ORDER  BY published_at_ko DESC
+    `).all() as ArticleIndex[]
   , [])
 }
 
