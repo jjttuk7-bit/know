@@ -52,6 +52,16 @@ UNSPLASH KEYWORDS RULES:
 - Match the article's visual feel — provide 5 varied options (specific to general)
 - Bad: ["BTS Jin", "K-pop idol"] → Good: ["concert stage lights", "music performance crowd"]
 
+CONTENT TYPE STRUCTURE GUIDE — match body_en structure to content_type:
+- breaking:   (1) The key fact/number in one sentence → (2) What happened, full context
+              → (3) Why it matters / reaction → (4) What's next
+- evergreen:  (1) Open with a scene or question → (2) Explain the cultural concept
+              → (3) Why it exists / history → (4) How it lives today → (5) Reader takeaway
+- analysis:   (1) Thesis statement → (2) Evidence from the facts → (3) Wider pattern
+              → (4) What this signals going forward
+- profile:    (1) Defining moment / hook → (2) Background and rise → (3) Key achievement
+              → (4) What makes them distinct → (5) What's next
+
 SELF-REVIEW — complete before outputting JSON:
 1. Does the headline make a specific, verifiable claim? (not "K-pop star shines")
 2. Can the first paragraph stand alone as a single tweet?

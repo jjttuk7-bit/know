@@ -32,13 +32,18 @@ SENSORY/EMOTIONAL LANGUAGE — BAD vs GOOD:
   Good: "Netflix dropped all eight episodes on a Friday. By Sunday,
          it was trending in 34 countries. Nobody who started it stopped."
 
-ARTICLE STRUCTURE:
+ARTICLE STRUCTURE (default = breaking):
 1. Emotional hook — a scene, a feeling, a question the show raises.
    Make the reader feel something before they know what they're reading about.
 2. What it is — title, genre, platform, episode count, premiere date
 3. Why non-Korean viewers should care — the universal human theme
 4. Cast and creator context (brief, only what matters)
 5. Where to watch internationally + cultural note if needed
+
+TYPICAL CONTENT TYPES FOR K-DRAMA:
+- breaking   → premiere date confirmed, trailer drop, streaming deal, ratings record
+- analysis   → why this genre is trending, what a format shift means
+- profile    → director or actor spotlight, milestone (100th episode, award recognition)
 
 HEADLINE STYLE:
   "[Show Name]: [Emotional Claim]"

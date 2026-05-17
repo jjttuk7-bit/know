@@ -15,8 +15,9 @@ import json
 import logging
 import os
 import re
+import sqlite3
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import anthropic
@@ -133,8 +134,9 @@ class Processor:
     async def _process_one(
         self, facts: ArticleFacts
     ) -> ProcessedArticle | None:
-        system = self._build_system_prompt(facts.category)
-        user   = _build_user_message(facts)
+        system  = self._build_system_prompt(facts.category)
+        context = self._fetch_recent_headlines(facts.category)
+        user    = _build_user_message(facts, context)
 
         raw = await self._process_with_fallback(system, user, facts.category)
         if raw is None:
@@ -183,6 +185,29 @@ class Processor:
 
         return None
 
+    # ── 시계열 맥락 조회 (Q-08) ──────────────────────────────
+
+    def _fetch_recent_headlines(self, category: str) -> list[str]:
+        """최근 7일 같은 카테고리 기사 헤드라인 → LLM 컨텍스트 주입용."""
+        db_path = Path(__file__).parent.parent / "website" / "data" / "know.db"
+        if not db_path.exists():
+            return []
+        try:
+            since = (datetime.now(tz=timezone.utc) - timedelta(days=7)).isoformat()
+            conn  = sqlite3.connect(str(db_path))
+            rows  = conn.execute(
+                """SELECT headline_en FROM articles
+                   WHERE published = 1 AND category = ?
+                     AND fetched_at >= ?
+                   ORDER BY published_at_ko DESC LIMIT 10""",
+                (category, since),
+            ).fetchall()
+            conn.close()
+            return [r[0] for r in rows if r[0]]
+        except Exception as exc:
+            logger.debug("시계열 맥락 조회 실패: %s", exc)
+            return []
+
     # ── 프롬프트 빌드 ─────────────────────────────────────────
 
     def _build_system_prompt(self, category: str) -> str:
@@ -206,10 +231,10 @@ class Processor:
         tags = data.get("tags", [])
         tags = [t for t in tags if isinstance(t, str)][:10]
 
-        # unsplash_keywords: 3개 이하, config fallback 보장
-        keywords = [k for k in data.get("unsplash_keywords", []) if isinstance(k, str)][:3]
+        # unsplash_keywords: 5개 이하, config fallback 보장
+        keywords = [k for k in data.get("unsplash_keywords", []) if isinstance(k, str)][:5]
         if not keywords:
-            keywords = self._cfg["image_keywords"].get(facts.category, [])[:3]
+            keywords = self._cfg["image_keywords"].get(facts.category, [])[:5]
 
         return ProcessedArticle(
             category=facts.category,
@@ -237,22 +262,25 @@ class Processor:
 # 유틸
 # ─────────────────────────────────────────────────────────────
 
-def _build_user_message(facts: ArticleFacts) -> str:
-    return json.dumps(
-        {
-            "category": facts.category,
-            "key_facts": {
-                "who":     facts.who,
-                "what":    facts.what,
-                "when":    facts.when,
-                "where":   facts.where,
-                "numbers": facts.numbers,
-                "context": facts.context,
-            },
+def _build_user_message(facts: ArticleFacts, recent_context: list[str] | None = None) -> str:
+    payload: dict = {
+        "category": facts.category,
+        "key_facts": {
+            "who":     facts.who,
+            "what":    facts.what,
+            "when":    facts.when,
+            "where":   facts.where,
+            "numbers": facts.numbers,
+            "context": facts.context,
         },
-        ensure_ascii=False,
-        indent=2,
-    )
+    }
+    if recent_context:
+        payload["recent_coverage_in_this_category"] = (
+            "Already published this week — avoid repeating these stories, "
+            "add new angle if related:\n"
+            + "\n".join(f"- {h}" for h in recent_context)
+        )
+    return json.dumps(payload, ensure_ascii=False, indent=2)
 
 
 def _category_key(category: str) -> str:

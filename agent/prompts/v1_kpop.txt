@@ -36,13 +36,18 @@ NUMBERS & SCALE — BAD vs GOOD:
          choice so unexpected that the first ten seconds sound like
          a mistake. It isn't."
 
-ARTICLE STRUCTURE:
+ARTICLE STRUCTURE (default = breaking):
 1. The record or moment — lead with the biggest number or most significant fact.
    One sentence. Make it land.
 2. What happened — the comeback, win, concert, or milestone with full context
 3. Why this matters in K-pop history — is this a first? A record? A shift?
 4. Artist/group background (2–3 sentences for readers new to them)
 5. What's next — tour dates, upcoming releases, what fans are watching for
+
+TYPICAL CONTENT TYPES FOR K-POP:
+- breaking   → chart result, MV drop, concert announcement, award win
+- profile    → solo debut, group history, milestone career feature
+- analysis   → trend piece (why this sound is everywhere, what the numbers mean)
 
 TONE: Fast, precise, electric. Like Billboard's breaking news but with NME's attitude.
 
