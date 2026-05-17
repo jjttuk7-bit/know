@@ -2,6 +2,7 @@
 // 참조: BRANDING.md 4절
 module.exports = {
   content: ['./app/**/*.{ts,tsx}', './components/**/*.{ts,tsx}'],
+  darkMode: 'media',
   theme: {
     extend: {
       colors: {

@@ -62,8 +62,9 @@ export default function SearchBar() {
           value={query}
           onChange={e => { setQuery(e.target.value); setOpen(true) }}
           onFocus={() => results.length > 0 && setOpen(true)}
-          className="w-full pl-8 pr-3 py-2 text-sm rounded-lg border border-[#E8E6DF]
-                     bg-white focus:outline-none focus:border-know-red transition-colors"
+          className="w-full pl-8 pr-3 py-2 text-sm rounded-lg border border-[#E8E6DF] dark:border-[#1E1E3A]
+                     bg-white dark:bg-[#13132A] dark:text-[#EAE9E2] dark:placeholder-gray-500
+                     focus:outline-none focus:border-know-red transition-colors"
         />
         <svg className="absolute left-2.5 top-2.5 w-3.5 h-3.5 text-gray-400" fill="none"
              viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>

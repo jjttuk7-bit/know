@@ -1,14 +1,46 @@
 // 기사 상세 페이지 — 서버 컴포넌트 (SSG)
 // 참조: KWAVE_DAILY_PLAN.md 5.3절
 import type { Metadata } from 'next'
+import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import ArticleCard from '@/components/ArticleCard'
 import CategoryBadge from '@/components/CategoryBadge'
 import ShareButtons from '@/components/ShareButtons'
-import { getArticleById, getAllArticleIds, getRelatedArticles } from '@/lib/db'
+import { getArticleById, getAllArticleIds, getRelatedArticles, getTagLinkedArticles, type TagLink } from '@/lib/db'
 import { getCatColor, formatDate, readTime, parseTags, SITE_NAME } from '@/lib/config'
+
+function LinkedParagraph({ text, links }: { text: string; links: TagLink[] }) {
+  if (!links.length) return <p>{text}</p>
+  const sorted = [...links].sort((a, b) => b.term.length - a.term.length)
+  const used   = new Set<string>()
+  let parts: (string | React.ReactElement)[] = [text]
+  for (const { term, id } of sorted) {
+    if (used.has(term.toLowerCase())) continue
+    const re = new RegExp(`(${term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'i')
+    const next: typeof parts = []
+    let linked = false
+    for (const part of parts) {
+      if (typeof part !== 'string' || linked) { next.push(part); continue }
+      const idx = part.search(re)
+      if (idx === -1) { next.push(part); continue }
+      const m = part.match(re)![0]
+      next.push(part.slice(0, idx))
+      next.push(
+        <Link key={`${id}-${term}`} href={`/articles/${id}`}
+              className="underline decoration-dotted underline-offset-2 hover:text-know-red transition-colors">
+          {m}
+        </Link>
+      )
+      next.push(part.slice(idx + m.length))
+      linked = true
+      used.add(term.toLowerCase())
+    }
+    parts = next
+  }
+  return <p>{parts}</p>
+}
 
 interface Props { params: { id: string } }
 
@@ -42,10 +74,11 @@ export default function ArticlePage({ params }: Props) {
   const article = getArticleById(Number(params.id))
   if (!article) notFound()
 
-  const related  = getRelatedArticles(article.category, article.id)
-  const tags     = parseTags(article.tags)
-  const { bg }   = getCatColor(article.category)
-  const bodyPara = (article.body_en ?? '').split(/\n\n+/).filter(Boolean)
+  const related    = getRelatedArticles(article.category, article.id)
+  const tagLinks   = getTagLinkedArticles(article.tags, article.id)
+  const tags       = parseTags(article.tags)
+  const { bg }     = getCatColor(article.category)
+  const bodyPara   = (article.body_en ?? '').split(/\n\n+/).filter(Boolean)
 
   return (
     <article className="max-w-2xl mx-auto space-y-8">
@@ -70,12 +103,12 @@ export default function ArticlePage({ params }: Props) {
           <span className="text-xs text-gray-400">· {readTime(article.body_en)} min read</span>
         </div>
 
-        <h1 className="text-2xl md:text-3xl font-bold text-know-navy leading-snug">
+        <h1 className="text-2xl md:text-3xl font-bold text-know-navy dark:text-[#EAE9E2] leading-snug">
           {article.headline_en}
         </h1>
 
         {article.subheadline_en && (
-          <p className="text-lg text-gray-500 leading-relaxed">{article.subheadline_en}</p>
+          <p className="text-lg text-gray-500 dark:text-gray-400 leading-relaxed">{article.subheadline_en}</p>
         )}
       </header>
 
@@ -145,10 +178,10 @@ export default function ArticlePage({ params }: Props) {
         </div>
       )}
 
-      {/* ── 본문 ─────────────────────────────────────────────── */}
+      {/* ── 본문 (Q-09 인라인 링크 포함) ──────────────────────── */}
       <div className="article-body">
         {bodyPara.map((para, i) => (
-          <p key={i}>{para}</p>
+          <LinkedParagraph key={i} text={para} links={tagLinks} />
         ))}
       </div>
 

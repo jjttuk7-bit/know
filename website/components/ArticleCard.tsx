@@ -17,7 +17,7 @@ export default function ArticleCard({ article, featured = false }: Props) {
   return (
     <Link
       href={href}
-      className={`group block rounded-card overflow-hidden border border-[#E8E6DF] hover:shadow-md transition-shadow
+      className={`group block rounded-card overflow-hidden border border-[#E8E6DF] dark:border-[#1E1E3A] hover:shadow-md transition-shadow
         ${featured ? 'md:col-span-2' : ''}`}
     >
       {/* 이미지 영역 */}
@@ -54,7 +54,7 @@ export default function ArticleCard({ article, featured = false }: Props) {
       </div>
 
       {/* 텍스트 영역 */}
-      <div className="p-4 bg-know-white">
+      <div className="p-4 bg-know-white dark:bg-[#13132A]">
         <div className="flex items-center gap-2 mb-2">
           <CategoryBadge category={article.category} linked={false} size="sm" />
           <span className="text-xs text-gray-400">
@@ -65,7 +65,7 @@ export default function ArticleCard({ article, featured = false }: Props) {
           </span>
         </div>
 
-        <h2 className={`font-semibold text-know-navy leading-snug group-hover:text-know-red transition-colors
+        <h2 className={`font-semibold text-know-navy dark:text-[#EAE9E2] leading-snug group-hover:text-know-red transition-colors
           ${featured ? 'text-xl md:text-2xl' : 'text-base'}`}>
           {article.headline_en}
         </h2>

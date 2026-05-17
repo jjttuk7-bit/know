@@ -24,7 +24,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={geist.variable}>
-      <body className="min-h-screen bg-know-white">
+      <body className="min-h-screen bg-know-white dark:bg-[#0D0D1A] transition-colors">
         <Header />
         <main className="max-w-6xl mx-auto px-4 py-8">
           {children}
@@ -38,7 +38,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           gtag('config','${GA_ID}');
         `}</Script>
 
-        <footer className="mt-16 bg-know-navy text-white/60 text-xs text-center py-6 px-4">
+        <footer className="mt-16 bg-know-navy dark:bg-[#07070F] text-white/60 text-xs text-center py-6 px-4">
           <p>© {new Date().getFullYear()} KNow — K-culture news for global fans.</p>
           <p className="mt-1.5 flex items-center justify-center gap-3 flex-wrap">
             <a href="https://unsplash.com" target="_blank" rel="noopener noreferrer"

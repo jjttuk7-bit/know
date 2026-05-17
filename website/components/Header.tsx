@@ -9,7 +9,7 @@ export default function Header() {
   const pathname = usePathname()
 
   return (
-    <header className="sticky top-0 z-50 bg-know-white/95 backdrop-blur border-b border-[#E8E6DF]">
+    <header className="sticky top-0 z-50 bg-know-white/95 dark:bg-[#0D0D1A]/95 backdrop-blur border-b border-[#E8E6DF] dark:border-[#1E1E3A]">
       <div className="max-w-6xl mx-auto px-4">
         {/* 상단 줄: 로고 + 검색 */}
         <div className="flex items-center justify-between h-14 gap-4">
@@ -27,8 +27,8 @@ export default function Header() {
               <Link
                 key={cat}
                 href={`/${slug}`}
-                className="flex-shrink-0 text-xs font-medium px-3 py-2 min-h-[36px] flex items-center rounded-t transition-colors"
-                style={active ? { background: bg, color: '#fff' } : { color: '#555' }}
+                className="flex-shrink-0 text-xs font-medium px-3 py-2 min-h-[36px] flex items-center rounded-t transition-colors text-gray-500 dark:text-gray-400"
+                style={active ? { background: bg, color: '#fff' } : {}}
               >
                 {cat}
               </Link>

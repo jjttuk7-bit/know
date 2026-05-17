@@ -149,6 +149,34 @@ export function getArticleById(id: number): ArticleRow | null {
   , null)
 }
 
+// ── 태그 기반 관련 기사 (Q-09 내부 링크용) ───────────────────
+
+export interface TagLink { term: string; id: number; headline: string }
+
+export function getTagLinkedArticles(tagsJson: string | null, excludeId: number): TagLink[] {
+  if (!tagsJson) return []
+  let tags: string[]
+  try { tags = JSON.parse(tagsJson) } catch { return [] }
+  if (!tags.length) return []
+
+  return safe(() => {
+    const results: TagLink[] = []
+    const seen = new Set<number>()
+    for (const tag of tags.slice(0, 8)) {
+      const row = db().prepare(`
+        SELECT id, headline_en, tags FROM articles
+        WHERE  published = 1 AND id != ? AND tags LIKE ?
+        ORDER  BY published_at_ko DESC LIMIT 1
+      `).get(excludeId, `%${tag}%`) as { id: number; headline_en: string } | undefined
+      if (row && !seen.has(row.id)) {
+        seen.add(row.id)
+        results.push({ term: tag, id: row.id, headline: row.headline_en })
+      }
+    }
+    return results
+  }, [])
+}
+
 export function getRelatedArticles(category: string, excludeId: number, limit = 3): ArticleRow[] {
   return safe(() =>
     db().prepare(`
