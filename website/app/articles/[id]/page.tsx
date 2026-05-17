@@ -126,7 +126,7 @@ export default function ArticlePage({ params }: Props) {
               fill
               priority
               className="object-cover"
-              sizes="(max-width:768px) 100vw, 672px"
+              sizes="(max-width:672px) 100vw, 672px"
             />
             {/* Unsplash 출처 표기 — 정책 필수 (CLAUDE.md 규칙 #3) */}
             {article.image_source === 'unsplash' && article.image_credit && (

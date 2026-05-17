@@ -6,11 +6,12 @@ import { getCatColor, formatDateShort, readTime } from '@/lib/config'
 import type { ArticleRow } from '@/lib/db'
 
 interface Props {
-  article: ArticleRow
+  article:  ArticleRow
   featured?: boolean
+  priority?: boolean   // LCP 대상 카드에 true 전달
 }
 
-export default function ArticleCard({ article, featured = false }: Props) {
+export default function ArticleCard({ article, featured = false, priority = false }: Props) {
   const { bg } = getCatColor(article.category)
   const href   = `/articles/${article.id}`
 
@@ -28,8 +29,13 @@ export default function ArticleCard({ article, featured = false }: Props) {
             src={article.image_url}
             alt={article.headline_en}
             fill
+            priority={priority}
             className="object-cover group-hover:scale-105 transition-transform duration-500"
-            sizes={featured ? '(max-width:768px) 100vw, 66vw' : '(max-width:768px) 100vw, 33vw'}
+            sizes={
+              featured
+                ? '(max-width:640px) 100vw, (max-width:1024px) 50vw, 740px'
+                : '(max-width:640px) 100vw, (max-width:1024px) 50vw, 370px'
+            }
           />
         ) : (
           /* 이미지 없을 때 카테고리 컬러 플레이스홀더 */

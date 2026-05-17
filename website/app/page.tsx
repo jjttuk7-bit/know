@@ -39,7 +39,7 @@ export default function HomePage() {
                   fill
                   priority
                   className="object-cover group-hover:scale-105 transition-transform duration-700"
-                  sizes="100vw"
+                  sizes="(max-width:1152px) 100vw, 1152px"
                 />
               )}
               {/* 그라디언트 오버레이 */}
@@ -76,8 +76,8 @@ export default function HomePage() {
             Today&apos;s Stories
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {recent.map(a => (
-              <ArticleCard key={a.id} article={a} />
+            {recent.map((a, i) => (
+              <ArticleCard key={a.id} article={a} priority={i < 3} />
             ))}
           </div>
         </section>

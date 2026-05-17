@@ -49,8 +49,8 @@ export default function CategoryPageN({ params }: Props) {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        {articles.map(a => (
-          <ArticleCard key={a.id} article={a} />
+        {articles.map((a, i) => (
+          <ArticleCard key={a.id} article={a} priority={i < 2} />
         ))}
       </div>
 

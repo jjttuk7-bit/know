@@ -6,5 +6,9 @@ export const dynamic = 'force-static'   // 빌드 시 JSON 생성
 
 export function GET() {
   const index = getAllArticleIndex()
-  return NextResponse.json(index)
+  return NextResponse.json(index, {
+    headers: {
+      'Cache-Control': 'public, max-age=3600, stale-while-revalidate=86400',
+    },
+  })
 }
