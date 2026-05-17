@@ -104,6 +104,14 @@ export function getArticlesByCategory(
   return { articles, total, totalPages: Math.ceil(total / PER_PAGE) }
 }
 
+export function getArticleCountByCategory(category: string): number {
+  return safe(() =>
+    (db().prepare(
+      'SELECT COUNT(*) as n FROM articles WHERE published = 1 AND category = ?'
+    ).get(category) as { n: number }).n
+  , 0)
+}
+
 // ── 검색 인덱스 (클라이언트 fuse.js용) ───────────────────────
 
 export interface ArticleIndex {
