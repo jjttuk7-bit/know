@@ -231,21 +231,46 @@ export default function ArticlePage({ params }: Props) {
 
       {/* ── 출처 표기 — 필수 (CLAUDE.md 규칙 #9) ──────────────── */}
       <div className="pt-4 border-t border-[#E8E6DF]">
-        <p className="text-xs text-gray-400">
-          Source:{' '}
-          <a
-            href={article.source_url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline hover:text-know-red break-all"
-          >
-            {article.source_url}
-          </a>
-        </p>
-        <p className="text-xs text-gray-400 mt-1">
-          Originally reported via {article.source_name === 'naver' ? 'Naver News' : 'Daum News'}.
-          This article was independently rewritten based on facts only.
-        </p>
+        {article.source_name === 'evergreen' ? (
+          // Evergreen: KNow 자체 제작 가이드
+          <p className="text-xs text-gray-400">
+            This is an original KNow guide, independently written by our editorial team.
+          </p>
+        ) : article.source_url.startsWith('https://www.youtube.com') ? (
+          // YouTube 공식 채널 소스
+          <>
+            <p className="text-xs text-gray-400">
+              Source:{' '}
+              <a href={article.source_url} target="_blank" rel="noopener noreferrer"
+                 className="underline hover:text-know-red break-all">
+                {article.source_url}
+              </a>
+            </p>
+            <p className="text-xs text-gray-400 mt-1">
+              Based on content from{' '}
+              <span className="font-medium">{article.source_name}</span> (YouTube official channel).
+              This article was independently written based on facts only.
+            </p>
+          </>
+        ) : (
+          // 뉴스 소스 (Naver / Yonhap / Daum)
+          <>
+            <p className="text-xs text-gray-400">
+              Source:{' '}
+              <a href={article.source_url} target="_blank" rel="noopener noreferrer"
+                 className="underline hover:text-know-red break-all">
+                {article.source_url}
+              </a>
+            </p>
+            <p className="text-xs text-gray-400 mt-1">
+              Originally reported via{' '}
+              {article.source_name === 'naver' ? 'Naver News'
+               : article.source_name === 'yonhap' ? 'Yonhap News Agency'
+               : 'Daum News'}.
+              This article was independently rewritten based on facts only.
+            </p>
+          </>
+        )}
       </div>
 
       {/* ── 관련 기사 ─────────────────────────────────────────── */}
